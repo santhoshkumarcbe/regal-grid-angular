@@ -1,0 +1,30 @@
+<app-sidebar></app-sidebar>
+<body>
+    
+    <p>admin dashboard</p>
+    
+    <h3>all permissions:</h3>
+    <p> {{permissions}}</p>
+    
+    
+    
+    <div *ngFor="let user of users">
+        <p>UserName : </p><button (click)="show()">{{user.username}}</button>
+        <div *ngIf="isShow">
+            <h3>User Details</h3>
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.emailId }}</p>
+            <p>Mobile Number: {{ user.mobileNumber }}</p>
+            <p>Full Name: {{ user.fullName }}</p>
+            <p>User Role: {{ user.userRole }}</p>
+    
+            <h3>Permissions</h3>
+            <div *ngFor="let permission of permissions; let i = index">
+                <label for="i">{{permission}}</label>
+                <input type="checkbox" id="i" [value]="permission" [checked]="isChecked(user.permissions, permission)">
+            </div>
+    
+        </div>
+    
+    </div>
+</body>

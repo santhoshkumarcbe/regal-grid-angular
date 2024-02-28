@@ -1,0 +1,84 @@
+
+.rectangle {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    margin: 0 0 0 0;
+    background: linear-gradient(90deg, #00cc25 0%, #0066CC 100%);
+    z-index: 10;
+    overflow: visible auto;
+  }
+  
+  .logo {
+    position: absolute;
+    width: 223px;
+    height: 80px;
+    margin: 0 0 0 0;
+    background-image: url('../../../assets/logo.png');
+    background-repeat: no-repeat center;
+    background-size: cover;
+    z-index: 11;
+  }
+  
+  .username {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+    height: 30px;
+    top: 15px;
+    left: 1280px;
+    color: #ffffff;
+    font-family: var(--default-font-family);
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 29px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 23;
+  }
+  
+  .profileicon {
+    position: absolute;
+    width: 3.98%;
+    height: 62.5%;
+    top: 18.75%;
+    left: 80.63%;
+    background-size: 100% 100%;
+    z-index: 22;
+    font-size: xx-large;
+  }
+  
+  .logouticon {
+    position: absolute;
+    width: 3.98%;
+    height: 62.5%;
+    top: 18.75%;
+    left: 95.63%;
+    background-size: 100% 100%;
+    z-index: 22;
+    font-size: xx-large;
+    display: block;
+    cursor: pointer;
+  }
+  
+  .menuicon {
+    position: absolute;
+    width: 3.98%;
+    height: 62.5%;
+    top: 18.75%;
+    left: 15.63%;
+    background-size: 100% 100%;
+    z-index: 22;
+    font-size: xx-large;
+    display: block;
+    cursor: pointer;
+  }
+  
+  .menu-icon{
+    color: #ffffff;
+  }
+  
+  .header{
+    display: fixed;
+  }

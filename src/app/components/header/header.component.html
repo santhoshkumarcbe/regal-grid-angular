@@ -1,0 +1,16 @@
+<div class="header">
+    <div class="rectangle">  
+        <div class="logo"></div>
+        <div class="profileicon" *ngIf="!isloginpage">
+            <fa-icon [icon]="profileicon"></fa-icon>
+        </div>
+        <div class="logouticon" *ngIf="!isloginpage" (click)="logout()">
+            <fa-icon [icon]="logouticon"></fa-icon>
+        </div>
+        <div class="menuicon" *ngIf="!isloginpage" (click)="openMenu()">
+            <fa-icon [icon]="menuicon"></fa-icon> 
+        </div>
+        
+    </div>
+    <span class="username" *ngIf="!isloginpage" >{{username}}</span>
+    </div>

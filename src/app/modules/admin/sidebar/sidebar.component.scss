@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #bedac3 ;
+  }
+  
+  .sidebar {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    top: 0;
+    // right: 80%;
+    background-color: #67cbb4 ;
+    padding-top: 20px;
+    display:fixed;
+  }
+  
+  .sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: flex;
+  }
+  
+  .sidebar a:hover {
+    background-color: red;
+  }
+  
+  .red-background {
+    background-color: rgb(174, 0, 255);
+  }
+  
+  .dashboard{
+    display: flex;
+    height: 100%;
+    width: 14.7%;
+  }
