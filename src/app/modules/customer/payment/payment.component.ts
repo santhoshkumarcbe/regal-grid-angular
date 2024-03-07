@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { PaymentService } from 'src/app/services/payment.service';
 
 declare let Razorpay:any;
@@ -10,13 +11,17 @@ declare let Razorpay:any;
 })
 
 export class PaymentComponent {
+  amount!:number;
+  constructor(private paymentService: PaymentService, private auth: AuthService) {}
 
-  constructor(private paymentService: PaymentService) {}
-
+  topupAmount!:number;
   payNowClicked() {
-    this.paymentService.createOrder(1000).subscribe({
+    this.topupAmount = this.amount
+    this.paymentService.createOrder(this.amount).subscribe({
       next: response => {
         this.openTransactionModel(response);
+        console.log("order", response);
+        
       },
       error: response => {
         alert(response);
@@ -63,6 +68,14 @@ export class PaymentComponent {
   }
   processResponse(response: any) {
     console.log(response);
+    const userName = localStorage.getItem('username')
+    this.paymentService.updateWallet(this.topupAmount, userName).subscribe(
+      {
+        next: value => {
+          this.auth.setWalletAmount(value);
+        }
+      }
+    )
   }
 }
 

@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCircleUser, faSignOut, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faCircleUser, faSignOut, faBars, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { PaymentService } from 'src/app/services/payment.service';
 
 @Component({
   selector: 'app-header',
@@ -17,27 +19,49 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent implements OnInit{
   isopen:boolean = true;
+  constructor(private auth: AuthService, private router: Router, private paymentService:PaymentService) { }
 
-  constructor(private auth: AuthService, private router: Router) { }
+  subscription! : Subscription
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (this.isloginpage) {
       this.logout();
     }
+    else{
+    this.subscription= this.auth.amountString.subscribe(
+      {
+        next: amount => {
+          console.log("wallet balance ", amount);
+          this.walletAmount = amount;
+          const balance = this.walletAmount === null ? 0: parseFloat(this.walletAmount.replace(",",""));
+          this.paymentService.setWalletBalance(balance);
+        },
+        error: error => {
+          console.error(error.message);
+        }
+      }
+    );
   }
+  }
+
+  walletAmount!:string | null;
   logged = this.auth.isLoggedIn();
   username = this.auth.getUsername();
 
   profileicon = faCircleUser;
   logouticon = faSignOut;
   menuicon = faBars;
+  walleticon = faWallet;
 
-
-  isloginpage = this.router.url === '/';
+  isloginpage = this.router.url === '/' || this.router.url === '/register' || this.router.url === '/forgot-password';
 
   openMenu() {
       this.isopen = !this.isopen;
       this.auth.setData(this.isopen);
+  }
+
+  topUpWallet(){
+    this.router.navigateByUrl('/customer/payment')
   }
 
   logout() {
@@ -45,7 +69,11 @@ export class HeaderComponent implements OnInit{
     localStorage.clear();
     clearTimeout(this.auth.sessionTime);
     console.log("interval cleared");
-
   }
 
+  logoutClick(){
+    // this.subscription.unsubscribe();
+    this.logout();
+    this.router.navigate(['']);
+  }
 }

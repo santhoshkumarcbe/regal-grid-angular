@@ -4,7 +4,7 @@
     width: 100%;
     height: 80px;
     margin: 0 0 0 0;
-    background: linear-gradient(90deg, #00cc25 0%, #0066CC 100%);
+    background: linear-gradient(90deg, #0066CC 0%, #0066CC 100%);
     z-index: 10;
     overflow: visible auto;
   }
@@ -74,9 +74,34 @@
     display: block;
     cursor: pointer;
   }
-  
-  .menu-icon{
+
+  .walleticon{
+    position: absolute;
+    width: 3.98%;
+    height: 62.5%;
+    top: 18.75%;
+    left: 65.63%;
+    background-size: 100% 100%;
+    z-index: 22;
+    font-size: xx-large;
+    display: block;
+    cursor: pointer;
+  }
+  .wallet-text{
     color: #ffffff;
+    position: absolute;
+    width: 3.98%;
+    height: 62.5%;
+    top: 18.75%;
+    left: 65.63%;
+    background-size: 100% 100%;
+    z-index: 22;
+    font-size: xx-large;
+    display: block;
+    cursor: pointer;
+    font-family: Arial, sans-serif; /* Choose your desired font family */
+    font-size: 24px; /* Adjust font size as needed */
+    font-weight: bold; /* Make the text bold */
   }
   
   .header{

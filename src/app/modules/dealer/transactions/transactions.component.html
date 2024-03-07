@@ -1,0 +1,36 @@
+<app-sidebar></app-sidebar>
+<body>
+    <p>Search By startTime: 
+        <input type="text" [(ngModel)]="searchText" (ngModelChange)="search($event)">
+    
+</p>
+    <p> Choose your Charging Station : 
+        <select [(ngModel)]="selectedChargingStation" (ngModelChange)="onSelectionChanges($event)" >
+            <option *ngFor="let station of chargingStations" [ngValue]="station"> {{station.stationName}}</option>
+        </select>
+    </p>
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>Slot Duration</th>
+            <th>Slot Start time</th>
+            <th>Slot end time</th>
+            <th>Amount</th>
+        </tr>
+        <tr ngClass="zoom" *ngFor="let slot of displaySlots; index as i">
+            <td>{{i+1}}</td>
+            <td>{{getHoursAndMinutesFromDuration(slot)}} {{hours}} hours : {{minutes}} minutes</td>
+            <td>{{slot.startTime}}</td>
+            <td>{{endTimeStr}}</td>
+            <td>{{getAmount(slot.chargingStationId)}}</td>
+        </tr>
+    </table>
+    <button (click)="displaySlot(i+1)" *ngFor="let page of [].constructor(pages); let i = index" >{{i+1}}</button>
+    <label for=""> Items per page : 
+        <select [(ngModel)]="itemsPerPage" (ngModelChange)="pagination($event)">
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="25">25</option>
+        </select>
+    </label>
+</body>
+

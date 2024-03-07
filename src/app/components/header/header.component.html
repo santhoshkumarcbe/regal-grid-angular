@@ -4,13 +4,21 @@
         <div class="profileicon" *ngIf="!isloginpage">
             <fa-icon [icon]="profileicon"></fa-icon>
         </div>
-        <div class="logouticon" *ngIf="!isloginpage" (click)="logout()">
+        <div class="logouticon" *ngIf="!isloginpage" (click)="logoutClick()">
             <fa-icon [icon]="logouticon"></fa-icon>
         </div>
         <div class="menuicon" *ngIf="!isloginpage" (click)="openMenu()">
             <fa-icon [icon]="menuicon"></fa-icon> 
         </div>
-        
+        <div class="walleticon" *ngIf="!isloginpage" (click)="topUpWallet()">
+            <fa-icon [icon]="walleticon"></fa-icon> 
+            
+        </div>
+        <div class="wallet-text" *ngIf="!isloginpage" (click)="topUpWallet()">
+            <span class="wallet-text"> ₹{{walletAmount}}</span>
+        </div>
+
+
     </div>
     <span class="username" *ngIf="!isloginpage" >{{username}}</span>
     </div>

@@ -7,21 +7,24 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ChatComponent } from './chat/chat.component';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     SidebarComponent,
-    ChatComponent
+    ChatComponent,
+    TransactionsComponent
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     HeaderComponent,
     FooterComponent,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminModule { }

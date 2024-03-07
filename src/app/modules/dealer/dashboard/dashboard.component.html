@@ -1,0 +1,15 @@
+<app-sidebar></app-sidebar>
+<body>
+    
+
+<div class="charging-stations">
+    <p>Your Charging stations : </p>
+    <div *ngFor="let chargingStation of chargingStations" class="charging-station">
+        <div class="charging-station"
+        (click)="getSlots(chargingStation.id, chargingStation.stationName, chargingStation.costPerMinute)">
+            <p>Station Name : {{chargingStation.stationName}}</p>
+            <p>Station Type : {{chargingStation.stationtype}}</p>
+        </div>
+    </div>
+</div>
+</body>

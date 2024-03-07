@@ -1,9 +1,10 @@
 export interface chargingStation{
+    id:string
     dealerName:string
     stationName:string
     stationtype:string
     location:string
-    costPerUnit:number
+    costPerMinute:number
 }
 
 export interface chargingStationDistance{

@@ -3,7 +3,7 @@
     <div class="dashboard">
         <div class="sidebar" *ngIf="isMenuOpen">
             <a routerLink="/admin" [ngClass]="{ 'red-background': isDashboardpage }">Dashboard</a>
-            <!-- <a routerLink="/admin/payment" [ngClass]="{ 'red-background': isPaymentpage }" >Payment</a> -->
+            <a routerLink="/admin/transactions" [ngClass]="{ 'red-background': isTransactionpage }" >transactions</a>
             <a routerLink="/admin/chat" [ngClass]="{ 'red-background': isChatpage }" >Chat</a>
         </div>
         <div>

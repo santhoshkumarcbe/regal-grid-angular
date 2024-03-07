@@ -1,5 +1,6 @@
 <app-sidebar></app-sidebar>
 <body>
-    <p>payment works!</p>
-    <button (click)="payNowClicked()"> Reserve now </button>
+    <p>Top-up wallet</p>
+    <input type="number" [(ngModel)]="amount" placeholder="Enter amount">
+    <button (click)="payNowClicked()"> Top-up now </button>
 </body>

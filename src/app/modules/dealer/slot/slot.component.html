@@ -1,0 +1,39 @@
+<app-sidebar></app-sidebar>
+<body>
+    
+    <div>
+        <p>Today's Slots </p>
+        <div *ngFor="let slot of slots">
+            <div [ngClass]="{'slot-card': true, 'available-slot': !slot.id, 'booked-slot': slot.id}">
+                <div class="slot-info">
+                    <p *ngIf="!slot.id">available-slot</p>
+                    <p *ngIf="slot.id">booked-slot</p>
+                    <p>Start Time: {{ getISTTime(slot.startTime) }}</p>
+                    <p>End Time: {{ calculateEndTime(slot.startTime, slot.duration) }}</p>
+                </div>
+            </div>
+        </div>
+
+        <label>Choose Date and time to view Slots:</label>
+        <input type="date" [(ngModel)]="selectedDate" [min]="minDate">
+
+        <input type="time" [(ngModel)]="selectedTime" [value]="minTime" [min]="minTime">
+
+        <button (click)="getSlotsForDate()">Get Slots</button>
+        <!-- <button (click)="bookSlot()" >Book your Slot Now</button> -->
+
+        <p *ngIf="specificSlots">Slots of {{selectedDate}} from {{selectedTime}} </p>
+        <div *ngFor="let slot of specificSlots">
+            <div [ngClass]="{'slot-card': true, 'available-slot': !slot.id, 'booked-slot': slot.id}">
+                <div class="slot-info">
+                    <p *ngIf="!slot.id">available-slot</p>
+                    <p *ngIf="slot.id">booked-slot</p>
+                    <p>Start Time: {{ getISTTime(slot.startTime) }}</p>
+                    <p>End Time: {{ calculateEndTime(slot.startTime, slot.duration) }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+

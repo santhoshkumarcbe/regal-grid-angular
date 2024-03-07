@@ -1,3 +1,68 @@
+
+
+/* Style for the container div */
+.vehicle-selector {
+  margin-bottom: 20px;
+}
+
+/* Style for the paragraph containing the dropdown */
+.vehicle-selector p {
+  margin-bottom: 10px;
+}
+
+/* Style for the select dropdown */
+.vehicle-selector select {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Style for the paragraph displaying the selected vehicle's charge */
+.vehicle-selector p:last-child {
+  font-size: 16px;
+}
+
+/* Style for the paragraph */
+p {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+/* CSS for Charging Stations */
+.charging-stations {
+  border: 1px solid transparent;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.charging-station {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.charging-station p {
+  margin: 0;
+}
+
+.charging-station p:first-child {
+  font-weight: bold;
+}
+
+.distance {
+  position: absolute;
+  top: 3px; /* Adjust this value as needed */
+  right: 10px; /* Adjust this value as needed */
+  font-style: italic;
+
+}
+
+
+// css for body 
 body {
   max-height: 657px;
     font-family: Arial, sans-serif;
@@ -45,7 +110,9 @@ body {
     width: 10%;
   }
 
-
+.charging-station{
+  cursor: pointer;
+}
 
   .available-slot {
     color: #008000; /* Dark Green */
@@ -89,6 +156,8 @@ input[type="time"] {
 
 /* Style for the button */
 button {
+  transition: 1000ms;
+  margin: 10px;
   padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
@@ -98,7 +167,72 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  transition: 1000ms;
+  padding: 10px 40px;
+  transform: translateY(-0px);
+  background-color: #00cc3a;
 }
 
+/* Popup container */
+.popup {
+  align-items: center;
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 9999; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black with opacity */
+}
 
+/* Popup content */
+.popup-content {
+  background-color: #fefefe;
+  margin: 10% auto; /* 10% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%; /* Could be more or less, depending on screen size */
+}
+
+/* Style for the popup form title */
+.popup-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Style for input fields */
+.popup-content label {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.popup-content input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensure padding and border are included in the width */
+}
+
+/* Style for submit button */
+.popup-content button {
+  margin: 20px auto 0; /* Center the button */
+  display: block; /* Ensure block-level display for centering */
+}
+
+/* Style for close button */
+.popup-content .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.popup-content .close:hover,
+.popup-content .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

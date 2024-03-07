@@ -9,6 +9,9 @@ import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ChatComponent } from './chat/chat.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SlotComponent } from './slot/slot.component';
+import { BookSlotComponent } from './book-slot/book-slot.component';
+import { SlotService } from 'src/app/services/slot.service';
 
 
 @NgModule({
@@ -16,7 +19,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DashboardComponent,
     PaymentComponent,
     SidebarComponent,
-    ChatComponent
+    ChatComponent,
+    SlotComponent,
+    BookSlotComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +31,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [ DatePipe ]
+  providers: [ DatePipe, SlotService ]
 })
 export class CustomerModule { }

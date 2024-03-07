@@ -1,64 +1,187 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import { Slot } from 'src/app/models/slot.model';
-import { AuthService } from 'src/app/services/auth.service';
 import { SlotService } from 'src/app/services/slot.service';
-import { DatePipe } from '@angular/common';
 import Swal from 'sweetalert2';
+import { chargingStation, chargingStationDistance } from 'src/app/models/chargingStationDistance.model';
+import { VehicleService } from 'src/app/services/vehicle.service';
+import { UserVehicle, Vehicle, VehicleModel } from 'src/app/models/vehicle.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ChargingStationService } from 'src/app/services/charging-station.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
+
 export class DashboardComponent implements OnInit {
-  constructor(private slotService: SlotService, private datePipe: DatePipe) { }
-  slots!: Slot[];
-  minDate: string = new Date().toISOString().split('T')[0];
-  minTime: string = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-  
+
   ngOnInit(): void {
-    console.log("this.minTime", this.minTime);
-     console.log("this.minDate", this.minDate);
-    
-    const date = new Date(); 
-    this.getAllSlotsByDate(date);
-    
+    this.getUserVehicle();
+    if (this.router.url === '/customer') {
+      this.slotService.isGetSlotsClicked = false;
+    }
+
+    if (this.userVehicles) {
+      this.selectedUserVehicle = this.userVehicles[0];
+    }
   }
 
-  getAllSlotsByDate(date:Date){
-    this.slotService.getAllSlotsByDate(date).subscribe(
-      {
-        next: slots => {
-          this.slots = slots;
-          console.log(this.slots);
+  getExpectedCharge() {
+    let seconds = 0;
+    seconds += this.expectedChargeHour * 60 * 60;
+    seconds += this.expectedChargeMinutes * 60;
+    this.vehicleService.getExpectedCharge(this.selectedUserVehicle.vehiclemodel, this.selectedUserVehicle.chargeAvailable, seconds).subscribe({
+      next: data => {
+        if (data <= 100) {
+          this.expectedCharge = data;
+        }
+        else {
+          Swal.fire('Enter less time');
+        }
+      },
+      error: error => {
+        console.error(error);
+      }
+    })
+  }
+
+  onSelectionChange(event: UserVehicle) {
+    this.selectedUserVehicle = event;
+    console.log(this.selectedUserVehicle);
+    this.getExpectedTimeDuration();
+    this.getAllChargingStations();
+  }
+
+  getExpectedTimeDuration() {
+    let seconds;
+    this.vehicleService.getExpectedTimeDuration(this.selectedUserVehicle.vehiclemodel, this.selectedUserVehicle.chargeAvailable, this.expectedCharge).subscribe({
+      next: time => {
+        console.log("expected time", time);
+
+        seconds = time;
+        this.expectedChargeHour = Math.floor(seconds / (60 * 60));
+        this.expectedChargeMinutes = Math.floor((seconds % (60 * 60)) / (60));
+        this.vehicleService.setExpectedChargeTime(this.expectedChargeHour, this.expectedChargeMinutes);
+      },
+      error: error => {
+        console.error(error);
+      }
+    })
+  }
+
+  expectedCharge: number = 100;
+  expectedChargeHour!: number;
+  expectedChargeMinutes!: number;
+
+  constructor(private slotService: SlotService,
+    private router: Router,
+    private vehicleService: VehicleService,
+    private authService: AuthService,
+    private chargingStationService: ChargingStationService) { }
+
+
+  chargingStationDistances!: chargingStationDistance[];
+
+
+  vehicle!: Vehicle;
+  userVehicles!: UserVehicle[];
+  vehicleModels!: VehicleModel[];
+  userName = this.authService.getUsername();
+  selectedUserVehicle!: UserVehicle
+
+  getUserVehicle() {
+    if (this.userName != null) {
+      this.vehicleService.getVehicle(this.userName.toString()).subscribe({
+        next: data => {
+          this.vehicle = data;
+          this.vehicleModels = data.vehicleModel;
+          this.userVehicles = data.userVehicle;
+          this.selectedUserVehicle = this.userVehicles[0];
+          console.log(this.vehicleModels);
+          console.log(this.userVehicles);
+
+          console.log(this.vehicle);
+
+          if (this.userVehicles.length !== 0) {
+            this.getAllChargingStations();
+            this.getExpectedTimeDuration();
+          }
+
+
         },
         error: error => {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!",
-          });
           console.error(error.message);
+
         }
-      }
-    )
+      });
+    }
+    else {
+      console.error("userName is null");
+
+    }
   }
 
-  selectedDate!: string;
-  selectedTime!: string;
-  specificSlots!:Slot[];
-  getSlotsForDate() {
-    if (this.selectedDate && this.selectedTime) {
-      const dateTimeString = `${this.selectedDate}T${this.selectedTime}`;
-      console.log("dateTimeString", dateTimeString);
-      const dateTime = new Date(dateTimeString);
-      this.slotService.getAllSlotsByDate(dateTime).subscribe(
+  addVehicleForm = new FormGroup({
+    vehicleName: new FormControl(),
+    vehiclemodel: new FormControl(),
+    chargeAvailable: new FormControl(55),
+    location: new FormControl('18.88,64.63')
+  });
+
+  addVehicle() {
+    if (this.addVehicleForm.invalid) {
+      alert('Please enter valid input');
+      return;
+    }
+    else {
+      console.log(this.addVehicleForm.value);
+
+      this.vehicleService.addVehicle(this.addVehicleForm.value, this.userName!.toString()).subscribe({
+        next: value => {
+          console.log("add vehicle response", value);
+          this.closePopup();
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Vehicle added Successfully",
+            showConfirmButton: true,
+            timer: 1500
+          });
+        },
+        error: error => {
+          console.error(error.message);
+        }
+      })
+    }
+
+  }
+
+  userLatitude!: number;
+  userLongitude!: number;
+
+  getAllChargingStations() {
+    if (this.selectedUserVehicle !== undefined) {
+
+      const coordinatesArray: string[] = this.selectedUserVehicle.location.split(',');
+      let latitude;
+      let longitude;
+      if (coordinatesArray.length === 2) {
+        this.userLatitude = parseFloat(coordinatesArray[0]);
+        this.userLongitude = parseFloat(coordinatesArray[1]);
+
+        console.log('Latitude:', latitude);
+        console.log('Longitude:', longitude);
+      } else {
+        console.error('Invalid coordinates string format');
+      }
+
+      this.chargingStationService.getAllChargingStations(this.userLatitude, this.userLongitude).subscribe(
         {
-          next: slots => {
-            this.specificSlots = slots;
-            console.log(this.slots);
+          next: chargingstationDistance => {
+            this.chargingStationDistances = chargingstationDistance
+            console.log("chargingstationDistance", chargingstationDistance);
           },
           error: error => {
             Swal.fire({
@@ -67,60 +190,34 @@ export class DashboardComponent implements OnInit {
               text: "Something went wrong!",
             });
             console.error(error.message);
-            
           }
         }
       )
-    } else {
-      Swal.fire('Date and time are required');
-      console.error('Date and time are required');
     }
   }
 
-  calculateEndTime(startTime: string, duration: string): string | null {
-    const start = new Date(startTime);
-    const durationParts = duration.split('T')[1].split(/[HMS]/);
-    console.log("durationParts", durationParts);
-
-    let hours = 0;
-    let minutes = 0;
-    let seconds = 0;
-
-    if (duration.includes('H')) {
-      hours = parseInt(durationParts[0]);
-    }
-
-    if (duration.includes('M')) {
-      if (duration.includes('H')) {
-        minutes = parseInt(durationParts[1]);
-      } else {
-        minutes = parseInt(durationParts[0]);
-      }
-    }
-
-    if (duration.includes('S')) {
-      if (duration.includes('H') && duration.includes('M')) {
-        seconds = parseInt(durationParts[2]);
-      } else if (duration.includes('M') && !duration.includes('H') || duration.includes('M') && !duration.includes('H')) {
-        seconds = parseInt(durationParts[1]);
-      } else {
-        seconds = parseInt(durationParts[0]);
-        console.log("seconds", seconds);
-      }
-    }
-
-
-    let endTime: any = new Date(start.getTime() + hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000);
-    endTime = endTime.toString(); // You can format the date as required
-    console.log("endTime", endTime);
-
-    return this.datePipe.transform(endTime, 'medium', 'IST');
+  getSlots(chargingStation: chargingStation) {
+    this.chargingStationService.setDealerName(chargingStation.dealerName);
+    this.slotService.setChargingStationId(chargingStation.id);
+    this.slotService.setChargingStationName(chargingStation.stationName);
+    this.slotService.setCostPerMinute(chargingStation.costPerMinute);
+    this.router.navigateByUrl('customer/slots')
   }
 
-  getISTTime(time: string): string | null {
-    // Convert UTC time to IST
-    const startTime = new Date(time);
-    return this.datePipe.transform(startTime, 'medium', 'IST');
+  // Open the popup form
+  openPopup() {
+    const popupForm = document.getElementById("popupForm");
+    if (popupForm) {
+      popupForm.style.display = "block";
+    }
+  }
+
+  // Close the popup form
+  closePopup() {
+    const popupForm = document.getElementById("popupForm");
+    if (popupForm) {
+      popupForm.style.display = "none";
+    }
   }
 
 }

@@ -22,7 +22,7 @@ export class SidebarComponent {
   isMenuOpen:boolean = true;  
 
   isDashboardpage = this.router.url === '/admin';
-  // isPaymentpage = this.router.url === '/customer/payment';
+  isTransactionpage = this.router.url === '/admin/transactions';
   isChatpage = this.router.url === '/admin/chat';
 
   menuBar(data: boolean) {

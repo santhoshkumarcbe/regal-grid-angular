@@ -12,8 +12,8 @@
     </div>
     <button class="submit" type="submit"  [disabled]="cannotSubmit">Login</button>
 
-    <span class="forgot-password">Forgot Password?</span>
+    <span routerLink="/forgot-password" class="forgot-password forgot-password-hover">Forgot Password?</span>
+    <p class="forgot-password">new User? <span routerLink="/register" class="forgot-password-hover" > register now</span> </p>
   </form>
-  <!-- <button (click)="Paynow()"></button> -->
 </div>
 <app-footer></app-footer>

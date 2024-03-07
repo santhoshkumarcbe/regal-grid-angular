@@ -4,7 +4,7 @@ export interface User {
     fullName:string,
     mobileNumber:number,
     passwordHash:string,
-    userName:string,
+    username:string,
     userRole:string,
     permissions:[string]
 }

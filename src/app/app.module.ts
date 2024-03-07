@@ -13,14 +13,20 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SlotService } from './services/slot.service';
+import { RegisterComponent } from './components/register/register.component';
+import { DatePipe } from '@angular/common';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        NotFoundComponent
+        RegisterComponent,
+        NotFoundComponent,
+        ForgotPasswordComponent
     ],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, DatePipe],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,

@@ -1,30 +1,91 @@
 <app-sidebar></app-sidebar>
+
 <body>
-    
+
     <p>admin dashboard</p>
-    
+
+    <button class="btn" (click)="openPopup()">add vehicle</button>
+
+    <!-- The popup form -->
+    <div id="popupForm" class="popup">
+        <div class="popup-content">
+            <span class="close" (click)="closePopup()">&times;</span>
+            <!-- Form elements go here -->
+            <h2>Enter Vehicle Model Details</h2>
+            <form [formGroup]="addVehicleForm" (ngSubmit)="addVehicle()">
+                <label>Vehicle Type :
+                    <select class="popup-content-select" type="select" placeholder="vehicle type" formControlName="vehicleType" required>
+                        <option value="two-wheeler">two wheeler</option>
+                        <option value="three-wheeler">three wheeler</option>
+                        <option value="four-wheeler">four wheeler</option>
+                        <option value="heavy-vehicle">heavy vehicle</option>
+                    </select>
+                </label>
+                <br>
+                <label for=""> Vehicle model :
+                    <input type="text" placeholder="vehicle model" formControlName="vehicleModel" required>
+                </label>
+                <br>
+                <label for=""> battery Capacity :
+                    <input type="text" placeholder="battery capacity in KwH" formControlName="batteryCapacity" required>
+                </label>
+                <label for=""> chargingTime :
+                    <input type="number" placeholder="charging time in seconds" formControlName="chargingTime" required>
+                </label><br>
+                <label for=""> chargeDrainPerKm :
+                    <input type="number" step="0.01" placeholder="charge drain per Km in decimal"
+                        formControlName="chargeDrainPerKm" required>
+                </label><br>
+                <button class="btn" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+
     <h3>all permissions:</h3>
     <p> {{permissions}}</p>
-    
-    
-    
-    <div *ngFor="let user of users">
-        <p>UserName : </p><button (click)="show()">{{user.username}}</button>
-        <div *ngIf="isShow">
-            <h3>User Details</h3>
-            <p>Username: {{ user.username }}</p>
-            <p>Email: {{ user.emailId }}</p>
-            <p>Mobile Number: {{ user.mobileNumber }}</p>
-            <p>Full Name: {{ user.fullName }}</p>
-            <p>User Role: {{ user.userRole }}</p>
-    
-            <h3>Permissions</h3>
-            <div *ngFor="let permission of permissions; let i = index">
-                <label for="i">{{permission}}</label>
+
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>UserName</th>
+            <th>email</th>
+            <th>Mobile number</th>
+            <th>Role</th>
+            <th *ngFor="let permission of permissions">{{permission}}</th>
+        </tr>
+        <tr *ngFor="let user of displayUsers ; let i = index">
+            <td>{{i+1}}</td>
+            <td><button (click)="openUserDetails(user)">{{ user.username }}</button>
+                <div id="popupUserDetails" class="popup">
+                    <div class="popup-content">
+                        <span class="close" (click)="closeUserDetails()">&times;</span>
+                        <!-- Form elements go here -->
+                        <h2>{{ username }} details </h2>
+                        <p>Username: {{ username }}</p>
+                        <p>Email: {{ emailId }}</p>
+                        <p>Mobile Number: {{ mobileNumber }}</p>
+                        <p>Full Name: {{ fullName }}</p>
+                        <p>User Role: {{ userRole }}</p>
+                    </div>
+                </div>
+
+            </td>
+            <td>{{ user.emailId }}</td>
+            <td>{{ user.mobileNumber }}</td>
+            <td>{{ user.userRole }}</td>
+            <td *ngFor="let permission of permissions; let i = index">
                 <input type="checkbox" id="i" [value]="permission" [checked]="isChecked(user.permissions, permission)">
-            </div>
-    
-        </div>
-    
-    </div>
+            </td>
+        </tr>
+    </table>
+    <button class="pagination" (click)="displayUser(i+1)" *ngFor="let page of [].constructor(pages); let i = index" >{{i+1}}</button>
+    <label for=""> Items per page : 
+        <select [(ngModel)]="itemsPerPage" (ngModelChange)="pagination($event)">
+            <option [ngValue]="5">5</option>
+            <option [ngValue]="10">10</option>
+            <option [ngValue]="25">25</option>
+        </select>
+    </label>
 </body>
