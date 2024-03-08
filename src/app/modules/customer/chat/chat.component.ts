@@ -14,10 +14,10 @@ export class ChatComponent {
   newMessageText: string = '';
   currentUser!: User;
   userId!: string | null;
-  managerId = "65d442bc46682a569abe0113";
+  adminId = "65d442bc46682a569abe0113";
   chat= {
     senderId: "65d445dd46682a569abe0115",
-    receiverId: this.managerId,
+    receiverId: this.adminId,
     message: '',
     time: new Date(),
   };
@@ -27,7 +27,7 @@ export class ChatComponent {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     // Fetch messages when component initializes
     // this.userId = localStorage.getItem('userId');
     // this.currentUser = this.authService.getUser();
@@ -39,10 +39,10 @@ export class ChatComponent {
     this.loadMessages();
   }
 
-  loadMessages(): void {
+  loadMessages() {
     if (this.userId) {
       this.chatService
-        .getChats(this.userId, this.managerId)
+        .getChats(this.userId, this.adminId)
         .subscribe(
           (chats) => {
             this.chats = chats;

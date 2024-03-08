@@ -4,4 +4,6 @@ export class Slot {
     startTime!: string
     duration!:string
     date!: Date
+    bookedBy!: string
+    isExpired!: boolean
   }

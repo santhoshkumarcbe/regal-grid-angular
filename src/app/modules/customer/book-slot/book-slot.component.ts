@@ -158,6 +158,8 @@ export class BookSlotComponent {
       {
         next: value => {
           this.authService.setWalletAmount(value);
+          console.log("updated amount ", value);
+          
         },
         error: error => {
           console.error(error);
@@ -251,12 +253,15 @@ export class BookSlotComponent {
     else if (this.fromDate && this.fromTime && this.toDate && this.toTime) {
       const date = new Date();
       const chargingStationId = this.slotService.getChargingStationId();
-      const dateTime = `${this.fromDate}T00:00`
+      const dateTime = `${this.fromDate}T00:00`;
+      const username = this.authService.getUsername();
       const body = {
         chargingStationId: chargingStationId,
         startTime: startTimeStr,
         duration: duration,
-        date: dateTime
+        date: dateTime,
+        bookedBy: username,
+        isExpired: false
       }
       const email = this.authService.getEmail();
       const emailBody = {
@@ -278,7 +283,7 @@ export class BookSlotComponent {
           console.log("email",emailBody);
           this.emailService.sendEmail(emailBody).subscribe({
             next: data => {              
-              console.log("email", data);
+              console.log("booking email send");
             },
             error: error => {
               console.error("email",error); 
@@ -288,7 +293,6 @@ export class BookSlotComponent {
         error: error => {
           Swal.fire("Something went wrong")
           console.error(error.message);
-
         }
       })
     }

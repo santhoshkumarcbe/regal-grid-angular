@@ -149,6 +149,7 @@ export class DashboardComponent implements OnInit {
             showConfirmButton: true,
             timer: 1500
           });
+          this.getUserVehicle();
         },
         error: error => {
           console.error(error.message);

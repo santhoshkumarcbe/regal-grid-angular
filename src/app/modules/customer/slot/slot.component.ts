@@ -23,6 +23,8 @@ export class SlotComponent implements OnInit {
   ngOnInit(): void {
     this.chargingStationId = this.slotService.getChargingStationId();
     const date = new Date();
+    const millis = date.getHours() * 60 * 60 * 1000 + date.getMinutes() * 60 * 1000 + date.getSeconds() * 1000;
+    date.setTime(date.getTime() - millis);
     this.getAllSlotsByDate(this.chargingStationId, date);
     if (this.selectedDate!==null && this.slotService.isGetSlotsClicked) {
     this.getSlotsForDate();

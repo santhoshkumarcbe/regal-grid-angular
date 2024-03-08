@@ -22,7 +22,7 @@ export class LoginComponent {
   userId!: number;
   token = '';
   loginForm = new FormGroup({
-    userName: new FormControl('admin1'),
+    userName: new FormControl('customer1'),
     password: new FormControl('rg')
   });
 

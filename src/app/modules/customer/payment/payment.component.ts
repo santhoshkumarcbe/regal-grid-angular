@@ -32,7 +32,7 @@ export class PaymentComponent {
   openTransactionModel(response: any) {
     const options = {
       order_id: response.orderId,
-      key: response.key,
+      key_id: response.key,
       amount: response.amount,
       currency: response.currency,
       name: 'Regal grid payment',
