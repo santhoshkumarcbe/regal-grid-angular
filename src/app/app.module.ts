@@ -17,6 +17,7 @@ import { SlotService } from './services/slot.service';
 import { RegisterComponent } from './components/register/register.component';
 import { DatePipe } from '@angular/common';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ActivatePortComponent } from './components/activate-port/activate-port.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
         LoginComponent,
         RegisterComponent,
         NotFoundComponent,
-        ForgotPasswordComponent
+        ForgotPasswordComponent,
+        ActivatePortComponent
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, DatePipe],
     bootstrap: [AppComponent],

@@ -1,5 +1,3 @@
-
-
 /* Style for the container div */
 .vehicle-selector {
   margin-bottom: 20px;
@@ -55,8 +53,10 @@ p {
 
 .distance {
   position: absolute;
-  top: 3px; /* Adjust this value as needed */
-  right: 10px; /* Adjust this value as needed */
+  top: 3px;
+  /* Adjust this value as needed */
+  right: 10px;
+  /* Adjust this value as needed */
   font-style: italic;
 
 }
@@ -65,80 +65,84 @@ p {
 // css for body 
 body {
   max-height: 657px;
-    font-family: Arial, sans-serif;
-    overflow-y: auto;
-    padding: 10px;
-    background-color: #a4eece;
-    border-radius: 10px;
-    padding-left: 15%;
-    padding-right: 5%;
-    padding-bottom: 10%;
-    margin-top: -48%;
-    
-  }
-  
-  .sidebar {
-    height: 100%;
-    width: 100%;
-    position: relative;
-    top: 0;
-    // right: 80%;
-    background-color: #0066 ;
-    padding-top: 20px;
-    display:fixed;
-  }
-  
-  .sidebar a {
-    padding: 10px 15px;
-    text-decoration: none;
-    font-size: 18px;
-    color: white;
-    display: flex;
-  }
-  
-  .sidebar a:hover {
-    background-color: red;
-  }
-  
-  .red-background {
-    background-color: rgb(174, 0, 255);
-  }
-  
-  .dashboard{
-    display: flex;
-    height: 100%;
-    width: 10%;
-  }
+  font-family: Arial, sans-serif;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #a4eece;
+  border-radius: 10px;
+  padding-left: 15%;
+  padding-right: 5%;
+  padding-bottom: 10%;
+  margin-top: -48%;
 
-.charging-station{
+}
+
+.sidebar {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  top: 0;
+  // right: 80%;
+  background-color: #0066;
+  padding-top: 20px;
+  display: fixed;
+}
+
+.sidebar a {
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 18px;
+  color: white;
+  display: flex;
+}
+
+.sidebar a:hover {
+  background-color: red;
+}
+
+.red-background {
+  background-color: rgb(174, 0, 255);
+}
+
+.dashboard {
+  display: flex;
+  height: 100%;
+  width: 10%;
+}
+
+.charging-station {
   cursor: pointer;
 }
 
-  .available-slot {
-    color: #008000; /* Dark Green */
-    background-color: #b3eeb3; /* Light Green */
-  }
-  
-  .booked-slot {
-    color: #FF0000; /* Red */
-    background-color: #f9cdd4; /* Light Pink */
-  }
+.available-slot {
+  color: #008000;
+  /* Dark Green */
+  background-color: #b3eeb3;
+  /* Light Green */
+}
 
-  .slot-card {
-    margin-left: 10%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 800px;
-  }
-  
-  .slot-info {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Style for the labels */
+.booked-slot {
+  color: #FF0000;
+  /* Red */
+  background-color: #f9cdd4;
+  /* Light Pink */
+}
+
+.slot-card {
+  margin-left: 10%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 800px;
+}
+
+.slot-info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for the labels */
 label {
   display: block;
   margin-bottom: 5px;
@@ -150,7 +154,8 @@ input[type="time"] {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 200px; /* Adjust width as needed */
+  width: 200px;
+  /* Adjust width as needed */
   margin-bottom: 10px;
 }
 
@@ -176,24 +181,33 @@ button:hover {
 /* Popup container */
 .popup {
   align-items: center;
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 9999; /* Sit on top */
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 9999;
+  /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0,0,0,0.4); /* Black with opacity */
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black with opacity */
 }
 
 /* Popup content */
 .popup-content {
   background-color: #fefefe;
-  margin: 10% auto; /* 10% from the top and centered */
+  margin: 10% auto;
+  /* 10% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 40%; /* Could be more or less, depending on screen size */
+  width: 40%;
+  /* Could be more or less, depending on screen size */
 }
 
 /* Style for the popup form title */
@@ -213,13 +227,16 @@ button:hover {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* Ensure padding and border are included in the width */
+  box-sizing: border-box;
+  /* Ensure padding and border are included in the width */
 }
 
 /* Style for submit button */
 .popup-content button {
-  margin: 20px auto 0; /* Center the button */
-  display: block; /* Ensure block-level display for centering */
+  margin: 20px auto 0;
+  /* Center the button */
+  display: block;
+  /* Ensure block-level display for centering */
 }
 
 /* Style for close button */

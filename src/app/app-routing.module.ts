@@ -5,11 +5,14 @@ import { AuthGuard } from './guards/auth.guard';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ActivatePortComponent } from './components/activate-port/activate-port.component';
 
 const routes: Routes = [
   {path:'', component:LoginComponent},
   {path:'register', component:RegisterComponent},
   {path:'forgot-password', component:ForgotPasswordComponent},
+  {path:'activate-port', component:ActivatePortComponent},
+
   {
     path: 'admin',
     canActivate: [AuthGuard],

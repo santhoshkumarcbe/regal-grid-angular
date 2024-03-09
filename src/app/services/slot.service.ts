@@ -149,4 +149,20 @@ export class SlotService {
     console.log(response);
     return response;
   }
+
+  findSlotById(id:string){
+    const findSlotByIdUrl = `${environment.baseUrl}/slot/findslotbyid/${id}`;
+    console.log(findSlotByIdUrl);
+    const response = this.http.get<Slot>(findSlotByIdUrl);
+    console.log(response);
+    return response;
+  }
+
+  setSlotExpiredTrue(id:string){
+    const setSlotExpiredTrueUrl = `${environment.baseUrl}/slot/setSlotExpired/${id}`;
+    console.log(setSlotExpiredTrueUrl);
+    const response = this.http.put(setSlotExpiredTrueUrl,null);
+    console.log(response);
+    return response;
+  }
 }

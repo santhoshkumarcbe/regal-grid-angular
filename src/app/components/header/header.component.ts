@@ -53,7 +53,10 @@ export class HeaderComponent implements OnInit{
   menuicon = faBars;
   walleticon = faWallet;
 
-  isloginpage = this.router.url === '/' || this.router.url === '/register' || this.router.url === '/forgot-password';
+  isloginpage = this.router.url === '/' 
+  || this.router.url === '/register'
+  || this.router.url === '/forgot-password'
+  || this.router.url === '/activate-port';
 
   openMenu() {
       this.isopen = !this.isopen;

@@ -302,9 +302,6 @@ export class BookSlotComponent {
     }
   }
 
-
-
-
   hours!: number;
   minutes!: number;
   getDuration(startTime: Date, endTime: Date): string | null {
@@ -313,7 +310,6 @@ export class BookSlotComponent {
     this.minutes = Math.floor((durationInMillis % (1000 * 60 * 60)) / (1000 * 60));
     console.log(this.hours);
     console.log(this.minutes);
-    
     
     if (this.hours < 0 || this.minutes < 5) {
       return null;

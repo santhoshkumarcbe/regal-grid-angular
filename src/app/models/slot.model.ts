@@ -5,5 +5,5 @@ export class Slot {
     duration!:string
     date!: Date
     bookedBy!: string
-    isExpired!: boolean
+    expired!: boolean
   }

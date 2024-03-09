@@ -1,0 +1,12 @@
+<div class="container">
+    <div *ngIf="showMessage" class="show-message">
+        <p *ngIf="!slotActivated"><button (click)="activateChargingPort()">click here</button> to activate slot</p>
+        <h3 *ngIf="slotActivated">Your slot has been activated successfully. Click here to go <a routerLink="/">login page</a></h3>
+    </div>
+
+    <div *ngIf="!showMessage" class="not-verified">
+        <h3>Your slot has not been activated now, due to being already activated or the link may be broken. Click here
+            to go
+            <a routerLink="/">login page</a>
+        </h3>
+    </div>
