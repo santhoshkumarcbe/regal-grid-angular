@@ -16,14 +16,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./book-slot.component.scss']
 })
 export class BookSlotComponent {
-  constructor(private slotService: SlotService, 
-    private vehicleService: VehicleService, 
-    private emailService:EmailService, 
-    private authService:AuthService,
+  constructor(private slotService: SlotService,
+    private vehicleService: VehicleService,
+    private emailService: EmailService,
+    private authService: AuthService,
     private paymentService: PaymentService,
     private router: Router,
     private chargingStationService: ChargingStationService
-    ) { }
+  ) { }
 
   fromTimeChanges() {
     this.getToTime();
@@ -46,11 +46,7 @@ export class BookSlotComponent {
       console.log(minutes);
       this.hours = hours;
       this.minutes = minutes;
-      
-
-
-      this.toDate = endTime.toISOString().split('T')[0];
-      this.toTime = `${endTime.getHours() < 10 ? `0${endTime.getHours()}` : endTime.getHours()}:${endTime.getMinutes() < 10 ? `0${endTime.getMinutes()}`: endTime.getMinutes()}`
+      this.toTime = `${endTime.getHours() < 10 ? `0${endTime.getHours()}` : endTime.getHours()}:${endTime.getMinutes() < 10 ? `0${endTime.getMinutes()}` : endTime.getMinutes()}`
 
     }
   }
@@ -61,7 +57,7 @@ export class BookSlotComponent {
   fromDate!: string;
   fromTime!: string;
 
-  toDate!: string;
+  // toDate!: string;
   toTime!: string;
 
   private subscription!: Subscription;
@@ -101,9 +97,9 @@ export class BookSlotComponent {
     }
   }
 
-  bookSlotClicked(){
+  bookSlotClicked() {
     const startTimeStr = `${this.fromDate}T${this.fromTime}`;
-    const endTimeStr = `${this.toDate}T${this.toTime}`;
+    const endTimeStr = `${this.fromDate}T${this.toTime}`;
     const startTime = new Date(startTimeStr);
     const endTime = new Date(endTimeStr);
     const duration = this.getDuration(startTime, endTime);
@@ -111,106 +107,9 @@ export class BookSlotComponent {
     totalMinutes += this.hours * 60;
     const cost = this.slotService.getCostPerMinute();
     const totalCost = cost * totalMinutes;
-    console.log(totalCost);
-    
-    // alert(totalCost);
-    Swal.fire({
-      title: "This slot costs you " + totalCost +", Do you like to book slot ?",
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: "Yes, book slot",
-      denyButtonText: `cancel`
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        // const walletBalance = this.authService.getAmount();
-        // alert('amount detection not added');
-        console.log("total cost",totalCost);
-        
-        this.checkAvailableBalance(totalCost);
-      } else if (result.isDenied) {
-        Swal.fire("Slot canceled", "", "info");
-      }
-    });
-
-  }
-
-  checkAvailableBalance(deductionAmount: number){
-    let walletBalance = this.paymentService.getWalletBalance();
-    console.log("wallet balance", walletBalance);
-    
-    walletBalance -= deductionAmount;
-    console.log("wallet balance after deduction", walletBalance);
-    
-    if (walletBalance < 0) {
-      Swal.fire("In sufficient balance, Top up now ? ");
-      this.router.navigateByUrl('/customer/payment')
-    }
-    else{
-      this.bookSlot(deductionAmount);
-    }
-  }
-
-  updateWallet(deductionAmount: number){
-    // detect amount from user
-    const userName = localStorage.getItem('username')
-    this.paymentService.updateWallet(-deductionAmount, userName).subscribe(
-      {
-        next: value => {
-          this.authService.setWalletAmount(value);
-          console.log("updated amount ", value);
-          
-        },
-        error: error => {
-          console.error(error);
-        }
-      }
-    );
-
-    const dealerName:string = this.chargingStationService.getDealerName();
-    const dealerAmount = deductionAmount * 0.90;
-    this.paymentService.updateWallet(dealerAmount, dealerName).subscribe(
-      {
-        next: value => {
-          console.log("dealer amount updated", value);
-        },
-        error: error => {
-          console.error(error);
-        }
-      }
-    );
-
-    const adminName = 'admin1';
-    const adminAmount = deductionAmount * 0.10;
-    this.paymentService.updateWallet(adminAmount, adminName).subscribe(
-      {
-        next: value => {
-          console.log("dealer amount updated", value);
-        },
-        error: error => {
-          console.error(error);
-        }
-      }
-    );
-
-
-
-
-
-  }
-
-
-
-  bookSlot(deductionAmount:number) {
-
-    const startTimeStr = `${this.fromDate}T${this.fromTime}`;
-    const endTimeStr = `${this.toDate}T${this.toTime}`;
     const currentDate = new Date();
-    const startTime = new Date(startTimeStr);
-    const endTime = new Date(endTimeStr);
-    const duration = this.getDuration(startTime, endTime);
+    console.log(totalCost);
 
-    console.log(startTimeStr);
     if (currentDate > startTime) {
       Swal.fire({
         title: "Start Time should be greater than current Time",
@@ -249,8 +148,136 @@ export class BookSlotComponent {
         }
       });
     }
+    else if (!this.fromDate && !this.fromTime && !this.toTime) {
+      Swal.fire('Slot timing required');
+      console.error('Slot timing required');
+    }
 
-    else if (this.fromDate && this.fromTime && this.toDate && this.toTime) {
+    else {
+      Swal.fire({
+        title: "This slot costs you ₹" + totalCost + ", Do you like to book slot ?",
+        showDenyButton: true,
+        // showCancelButton: true,
+        confirmButtonText: "Yes, book slot",
+        denyButtonText: `cancel`
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log("total cost", totalCost);
+
+          this.checkAvailableBalance(totalCost);
+        }
+        else if (result.isDenied) {
+          Swal.fire("Slot canceled", "", "info");
+        }
+      });
+    }
+
+  }
+
+  checkAvailableBalance(deductionAmount: number) {
+    let walletBalance = this.paymentService.getWalletBalance();
+    console.log("wallet balance", walletBalance);
+
+    walletBalance -= deductionAmount;
+    console.log("wallet balance after deduction", walletBalance);
+
+    if (walletBalance < 0) {
+      Swal.fire({
+        title: "Your wallet has low balance, Do you like pay now ?",
+        showDenyButton: true,
+        // showCancelButton: true,
+        confirmButtonText: "Pay now",
+        denyButtonText: `Cancel`
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.paymentService.payNowClicked(deductionAmount);
+          let paymentConfirmed: boolean;
+          const subscription = this.paymentService.isPaymentConfirmed.subscribe({
+            next: data => {
+              paymentConfirmed = data;
+              subscription.unsubscribe();
+              if (paymentConfirmed) {
+                this.bookSlot(deductionAmount);
+              }
+            },
+            error: error => {
+              console.error(error);
+              subscription.unsubscribe();
+            }
+          })
+        } else if (result.isDenied) {
+          Swal.fire("Booking canceled", "", "info");
+        }
+      });
+    }
+    else {
+      this.bookSlot(deductionAmount);
+    }
+  }
+
+  updateWallet(deductionAmount: number) {
+    // detect amount from user
+    const userName = localStorage.getItem('username')
+    this.paymentService.updateWallet(-deductionAmount, userName).subscribe(
+      {
+        next: value => {
+          this.authService.setWalletAmount(value);
+          console.log("updated amount ", value);
+
+        },
+        error: error => {
+          console.error(error);
+        }
+      }
+    );
+
+    const dealerName: string = this.chargingStationService.getDealerName();
+    const dealerAmount = deductionAmount * 0.90;
+    this.paymentService.updateWallet(dealerAmount, dealerName).subscribe(
+      {
+        next: value => {
+          console.log("dealer amount updated", value);
+        },
+        error: error => {
+          console.error(error);
+        }
+      }
+    );
+
+    const adminName = 'admin1';
+    const adminAmount = deductionAmount * 0.10;
+    this.paymentService.updateWallet(adminAmount, adminName).subscribe(
+      {
+        next: value => {
+          console.log("dealer amount updated", value);
+        },
+        error: error => {
+          console.error(error);
+        }
+      }
+    );
+
+
+
+
+
+  }
+
+
+
+  bookSlot(deductionAmount: number) {
+
+    const startTimeStr = `${this.fromDate}T${this.fromTime}`;
+    const endTimeStr = `${this.fromDate}T${this.toTime}`;
+    const startTime = new Date(startTimeStr);
+    const endTime = new Date(endTimeStr);
+    const duration = this.getDuration(startTime, endTime);
+
+    console.log(startTimeStr);
+
+
+    if (this.fromDate && this.fromTime && this.toTime) {
       const date = new Date();
       const chargingStationId = this.slotService.getChargingStationId();
       const dateTime = `${this.fromDate}T00:00`;
@@ -265,28 +292,30 @@ export class BookSlotComponent {
       }
       const email = this.authService.getEmail();
       const emailBody = {
-        toEmail: email === null ? '': email,
+        toEmail: email === null ? '' : email,
         subject: "Booking Confirmed",
-        body:`your booking at ${this.slotService.getChargingStationName()} has confirmed on ${date}
-        from ${startTime} to ${endTime},
-        confirmation message will be poped up in your regal-grid app during start time of your slot,
-        press OK to confirm your are in the station and activate charging port. 
-                              Thank you choosing us!
-                                                                               Regards, 
-                                                                               Regal-grid team .`
+        body: `<div style="font-family: Arial, sans-serif; color: #333; background-color: #f8f8f8; padding: 20px; border-radius: 10px;">
+        <p style="font-size: 18px;"><strong>Slot reserved at <span style="color: #007bff;">${this.slotService.getChargingStationName()}</span> is confirmed on <span style="color: #007bff;">${date}</span> from <span style="color: #007bff;">${startTime}</span> to <span style="color: #007bff;">${endTime}</span>,</strong></p>
+        <p style="font-size: 16px;">Slot activation mail will be send to you during start time of your slot to confirm you are at the station, you can activate charging port by clicking activate slot.</p>
+        <p style="font-size: 16px;">Thank you for choosing us!</p>
+        <p style="font-style: italic; font-size: 14px;">Regards,<br/>Regal-grid </p>
+        <img src="cid:logo" alt="Regal-grid logo" style="max-width: 50%; height: 50%; display: block; margin: 20px auto;">  
+    </div>    
+        `
       }
 
       this.slotService.bookSlot(body).subscribe({
         next: response => {
           this.updateWallet(deductionAmount)
           Swal.fire(response, "", "success");
-          console.log("email",emailBody);
+          console.log("email", emailBody);
           this.emailService.sendEmail(emailBody).subscribe({
-            next: data => {              
+            next: data => {
+              console.log(data);
               console.log("booking email send");
             },
             error: error => {
-              console.error("email",error); 
+              console.error("email", error);
             }
           });
         },
@@ -297,7 +326,7 @@ export class BookSlotComponent {
       })
     }
     else {
-      Swal.fire('Slot timing required');
+      Swal.fire('Unknown error');
       console.error('Slot timing required');
     }
   }
@@ -310,7 +339,7 @@ export class BookSlotComponent {
     this.minutes = Math.floor((durationInMillis % (1000 * 60 * 60)) / (1000 * 60));
     console.log(this.hours);
     console.log(this.minutes);
-    
+
     if (this.hours < 0 || this.minutes < 5) {
       return null;
     }

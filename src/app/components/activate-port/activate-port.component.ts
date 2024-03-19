@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Slot } from 'src/app/models/slot.model';
 import { SlotService } from 'src/app/services/slot.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-activate-port',
@@ -44,6 +45,12 @@ export class ActivatePortComponent {
 
   activateChargingPort() {
     this.setSlotExpiredTrue();
+    Swal.fire({
+      title: "Good job!",
+      text: "Your charging slot activated successfully !",
+      icon: "success"
+    });
+    
     // activate charging port api 
     // add api to  activate charging port 
   }
@@ -53,6 +60,8 @@ export class ActivatePortComponent {
       next: data => {
         console.log(data);
         this.slotActivated = true
+        console.log(this.slotActivated);
+        
       },
       error: error => {
         console.error(error);

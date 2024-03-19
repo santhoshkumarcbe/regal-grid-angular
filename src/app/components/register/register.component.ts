@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { faUser, faLock, faVoicemail, faEnvelope, faMobile, faIdBadge, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faLock, faVoicemail, faEnvelope, faMobile, faIdBadge, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { Email } from 'src/app/models/email.model';
 import { User } from 'src/app/models/user.model';
@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
+
 export class RegisterComponent {
   constructor(private _snackBar: MatSnackBar,
     private authService: AuthService,
@@ -27,6 +28,7 @@ export class RegisterComponent {
   emailicon = faEnvelope;
   mobileicon = faMobile;
   fullnameicon = faIdBadge;
+
   user!: User;
   userId!: number;
   token = '';
@@ -40,14 +42,10 @@ export class RegisterComponent {
   });
 
   cannotSubmit = false;
+  isEmailExist = false;
+  isMobileNumberExist = false;
 
   onSubmit(): void {
-    if (this.registerForm.invalid) {
-      alert('Please enter valid input');
-      return;
-    }
-
-    else {
       if (!this.isNewUsername) {
         Swal.fire({
           icon: "error",
@@ -55,14 +53,75 @@ export class RegisterComponent {
           text: "User name already exists! enter unique name",
         });
       }
+
       else {
         this.cannotSubmit = true;
         this.forgotpasswordStep++;
         const email = this.registerForm.value.emailId;
         this.sendOtpToMail(email!.toString());
       }
+  }
 
+  checkFormVaild(){
+    if (this.registerForm.invalid) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter valid input",
+      });
     }
+    else{
+      this.checkEmailExist()
+    }
+  }
+
+  checkEmailExist() {
+    this.authService.isEmailExists(this.registerForm.value.emailId).subscribe({
+      next: value => {
+        this.isEmailExist = value;
+      },
+      error: error => {
+        console.error(error);
+      },
+      complete: () => {
+        if (this.isEmailExist) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Email id already exist, please log in",
+          });
+        }
+        else {
+          this.checkMobileNumberExist();
+        }
+      }
+    })
+
+  }
+
+  checkMobileNumberExist() {
+    this.authService.isMobileNumberExists(this.registerForm.value.mobileNumber).subscribe({
+      next: value => {
+        this.isMobileNumberExist = value;
+        
+      },
+      error: error => {
+        console.error(error);
+      }
+      ,
+      complete: () => {
+        if (this.isMobileNumberExist) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Mobile number already exist, please log in",
+          });
+        }
+        else{
+          this.onSubmit();
+        }
+      }
+    })
   }
 
   register() {
@@ -80,7 +139,12 @@ export class RegisterComponent {
 
       },
       error: error => {
-        alert(error.message);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.message,
+          footer: '<a></a>'
+        });
         console.error(error);
 
         this.cannotSubmit = false;
@@ -91,25 +155,30 @@ export class RegisterComponent {
   forgotpasswordStep = 0;
   lockicon = faLock;
   checkicon = faCheck;
-  // username!:string;
+  wrongicon = faXmark;
   isNewUsername: boolean = false;
+  isUsernameNull = true;
 
   findUsername() {
-    
     const username = this.registerForm.value.userName
-    console.log(username);
+    if (username === '') {
+      this.isNewUsername = false;
+      this.isUsernameNull = true;
+    }
+    else {
+      this.authService.isUsernameExists(username).subscribe({
+        next: data => {
+          this.isNewUsername = !data;
+          this.isUsernameNull = false;
+          // console.log(data);
+        },
+        error: error => {
+          console.error(error);
+        }
+      })
+    }
 
-    this.authService.isUsernameExists(username).subscribe({
-      next: data => {
-        this.isNewUsername = !data;
-        console.log(data);
-        console.log("isNewUsername", this.isNewUsername);
 
-      },
-      error: error => {
-        console.error(error);
-      }
-    })
 
 
   }
@@ -127,7 +196,20 @@ export class RegisterComponent {
     const body: Email = {
       toEmail: email,
       subject: "Verify Email OTP",
-      body: "OTP for Regal-grid register is " + this.otp
+      // body: "OTP for Regal-grid register is " + this.otp
+      body: `<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+
+      <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; color: #333;">Your OTP for Regal-grid Registration</h2>
+        <p style="text-align: center; color: #666;">Please use the following OTP to complete your registration:</p>
+        <div style="background-color: #f9f9f9; padding: 10px; text-align: center; font-size: 24px; margin-bottom: 20px;">
+          <strong style="color: #333;">${this.otp}</strong>
+        </div>
+        <p style="text-align: center; color: #666;">This OTP is valid for a limited time. Please do not share it with anyone.</p>
+        <img src="cid:logo" alt="Regal-grid logo" style="max-width: 50%; height: 50%; display: block; margin: 20px auto;"> 
+      </div>
+      
+      </body>`
     }
     this.emailService.sendEmail(body).subscribe({
       next: data => {

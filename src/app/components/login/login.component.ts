@@ -30,7 +30,11 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      alert('Please enter valid input');
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter valid input !",
+      });
       return;
     }
 
@@ -58,7 +62,6 @@ export class LoginComponent {
           this.auth.setToken(result.token);
           this.auth.setWalletAmount(result.user.wallet)
 
-
           this._snackBar.open('Login successful', 'Close', {
             duration: 3000 // 3 seconds
           });
@@ -79,7 +82,7 @@ export class LoginComponent {
             icon: "error",
             title: "Oops...",
             text: "Something went wrong!",
-            footer: '<a>Contact customer Support </a>'
+            footer: '<a>Server down </a>'
           });
           
           this.cannotSubmit = false;

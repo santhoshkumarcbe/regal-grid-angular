@@ -161,7 +161,7 @@ export class SlotService {
   setSlotExpiredTrue(id:string){
     const setSlotExpiredTrueUrl = `${environment.baseUrl}/slot/setSlotExpired/${id}`;
     console.log(setSlotExpiredTrueUrl);
-    const response = this.http.put(setSlotExpiredTrueUrl,null);
+    const response = this.http.put(setSlotExpiredTrueUrl,null, { responseType: 'text' });
     console.log(response);
     return response;
   }

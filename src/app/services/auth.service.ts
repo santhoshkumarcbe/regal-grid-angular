@@ -119,6 +119,24 @@ export class AuthService {
     console.log(response);
     return response;
   }
+
+  isEmailExists(email:any){
+    const isEmailExistsUrl = `${environment.baseUrl}/api/auth/isEmailExist/${email}`;
+    console.log(isEmailExistsUrl);
+    
+    const response = this.http.get<boolean>(isEmailExistsUrl);
+    console.log(response);
+    return response;
+  }
+
+  isMobileNumberExists(mobilenumber:any){
+    const isMobileNumberExistsUrl = `${environment.baseUrl}/api/auth/isMobilenumberExist/${mobilenumber}`;
+    console.log(isMobileNumberExistsUrl);
+    
+    const response = this.http.get<boolean>(isMobileNumberExistsUrl);
+    console.log(response);
+    return response;
+  }
   
   clearLocalStorageAfterTime(time: number) {
     this.sessionTime = setTimeout(() => {

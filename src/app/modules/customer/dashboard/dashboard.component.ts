@@ -56,6 +56,14 @@ export class DashboardComponent implements OnInit {
 
   getExpectedTimeDuration() {
     let seconds;
+    if (this.expectedCharge > 100 || this.expectedCharge < this.selectedUserVehicle.chargeAvailable) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: '<a>Expected charge should be greater than current charge and less than or equal to 100  </a>'
+      });
+    }
     this.vehicleService.getExpectedTimeDuration(this.selectedUserVehicle.vehiclemodel, this.selectedUserVehicle.chargeAvailable, this.expectedCharge).subscribe({
       next: time => {
         console.log("expected time", time);
@@ -132,7 +140,12 @@ export class DashboardComponent implements OnInit {
 
   addVehicle() {
     if (this.addVehicleForm.invalid) {
-      alert('Please enter valid input');
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter valid input",
+
+      });
       return;
     }
     else {

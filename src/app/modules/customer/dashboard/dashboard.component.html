@@ -19,7 +19,7 @@
                         [(ngModel)]="expectedCharge" (ngModelChange)="getExpectedTimeDuration()"
                         [min]="selectedUserVehicle.chargeAvailable" [max]="100"></p>
 
-                <p>Expected time to get full charge : <input type="number" [(ngModel)]="expectedChargeHour"
+                <p>Expected time to get expected charge : <input type="number" [(ngModel)]="expectedChargeHour"
                         (ngModelChange)="getExpectedCharge()"> hours <input type="number" min="5"
                         [(ngModel)]="expectedChargeMinutes" (ngModelChange)="getExpectedCharge()"> minutes</p>
             </div>

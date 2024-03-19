@@ -37,10 +37,18 @@ p {
 }
 
 .charging-station {
+  background-color: #f2f2f2;
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
   position: relative;
+  cursor: pointer;
+  transition: transform 0.5s ease-in-out;
+
+  &:hover {
+      transform: scale(1.01);
+  }
+
 }
 
 .charging-station p {
@@ -110,9 +118,7 @@ body {
   width: 10%;
 }
 
-.charging-station {
-  cursor: pointer;
-}
+
 
 .available-slot {
   color: #008000;
@@ -185,7 +191,7 @@ button:hover {
   /* Hidden by default */
   position: fixed;
   /* Stay in place */
-  z-index: 9999;
+  z-index: 2;
   /* Sit on top */
   left: 0;
   top: 0;
@@ -252,4 +258,18 @@ button:hover {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+input[type="number"] {
+  padding: 8px; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333; 
+  width:fit-content;
+}
+
+input[type="number"]:focus {
+  border-color: #007bff;
+  outline: none; 
 }

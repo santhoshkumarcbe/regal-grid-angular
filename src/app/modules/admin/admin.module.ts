@@ -9,6 +9,7 @@ import { HeaderComponent } from 'src/app/components/header/header.component';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { RegisterDealerComponent } from './register-dealer/register-dealer.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TransactionsComponent } from './transactions/transactions.component';
     DashboardComponent,
     SidebarComponent,
     ChatComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    RegisterDealerComponent
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { PaymentService } from 'src/app/services/payment.service';
 
@@ -12,7 +13,7 @@ declare let Razorpay:any;
 
 export class PaymentComponent {
   amount!:number;
-  constructor(private paymentService: PaymentService, private auth: AuthService) {}
+  constructor(private paymentService: PaymentService, private auth: AuthService, private router:Router) {}
 
   topupAmount!:number;
   payNowClicked() {
@@ -73,6 +74,7 @@ export class PaymentComponent {
       {
         next: value => {
           this.auth.setWalletAmount(value);
+          this.router.navigateByUrl('/customer');
         }
       }
     )
