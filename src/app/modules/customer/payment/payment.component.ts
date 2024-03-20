@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { PaymentService } from 'src/app/services/payment.service';
+import Swal from 'sweetalert2';
 
 declare let Razorpay:any;
 
@@ -25,7 +26,7 @@ export class PaymentComponent {
         
       },
       error: response => {
-        alert(response);
+        console.error(response);
       }
     });
   }
@@ -48,7 +49,12 @@ export class PaymentComponent {
         if (response != null && response.razorpay_payment_id != null)
           this.processResponse(response);
         else
-          alert('Payment failed..');
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Payment failed !",
+          confirmButtonColor: '#007bff'
+        });
       },
       notes: {
         address: 'Book slot in charging station'

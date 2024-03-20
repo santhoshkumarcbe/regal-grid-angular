@@ -48,11 +48,10 @@ export class ActivatePortComponent {
     Swal.fire({
       title: "Good job!",
       text: "Your charging slot activated successfully !",
-      icon: "success"
+      icon: "success",
+      confirmButtonColor: '#007bff'
     });
-    
-    // activate charging port api 
-    // add api to  activate charging port 
+     
   }
 
   setSlotExpiredTrue() {

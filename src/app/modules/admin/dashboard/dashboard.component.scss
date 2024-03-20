@@ -63,7 +63,7 @@ button:hover {
   /* Hidden by default */
   position: fixed;
   /* Stay in place */
-  z-index: 9999;
+  z-index: 5;
   /* Sit on top */
   left: 0;
   top: 0;
@@ -108,6 +108,21 @@ button:hover {
   border-radius: 4px;
   box-sizing: border-box;
   /* Ensure padding and border are included in the width */
+}
+
+input[type="number"] {
+  padding: 8px; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333; 
+  width:auto;
+  width: 70%;
+}
+
+input[type="number"]:focus,.popup-content input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none; 
 }
 
 /* Style for submit button */
@@ -181,4 +196,19 @@ select {
   -webkit-transform: scale(1.1);
   /* Safari 3-8 */
   transform: scale(1.1);
+}
+
+.checkicon {
+  display: outline;
+  color: green;
+  font-size: large;
+  position: absolute;
+  // top: 40%;
+  left: 67%;
+  bottom: 73%;
+  z-index: 8;
+}
+.checkicon:hover {
+  cursor: pointer;
+  color: rgb(86, 181, 86);
 }

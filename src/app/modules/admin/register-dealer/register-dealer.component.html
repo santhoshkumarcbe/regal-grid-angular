@@ -1,1 +1,47 @@
-<p>register-dealer works!</p>
+<!-- <app-header></app-header> -->
+<app-sidebar></app-sidebar>
+<div class="form">
+  <div *ngIf="forgotpasswordStep === 0">
+    <form [formGroup]="registerForm" (ngSubmit)="checkFormVaild()">
+      <span class="title-login">Register new Dealer</span>
+      <div class="rectangle-1">
+        <fa-icon class="usericon" [icon]="usericon"></fa-icon>
+        <fa-icon *ngIf="isNewUsername" class="checkicon" [icon]="checkicon"></fa-icon>
+        <fa-icon *ngIf="!isNewUsername" [ngStyle]="{'display':isUsernameNull ? 'none': 'block'}" class="wrongicon" [icon]="wrongicon"></fa-icon>
+        <input class="enter-username-password" (input)="findUsername()" formControlName="userName"
+          placeholder="Enter your User Name" maxlength="20" required>
+      </div>
+      <div class="rectangle-1">
+        <fa-icon class="usericon" [icon]="passwordicon"></fa-icon>
+        <input type="password" class="enter-username-password" formControlName="passwordHash"
+          placeholder="Enter your Password" maxlength="30" required>
+      </div>
+      <div class="rectangle-1">
+        <fa-icon class="usericon" [icon]="emailicon"></fa-icon>
+        <input type="email" class="enter-username-password" formControlName="emailId" placeholder="Enter your email id"
+        maxlength="320" required>
+      </div>
+      <div class="rectangle-1">
+        <fa-icon class="usericon" [icon]="mobileicon"></fa-icon>
+        <input type="text" class="enter-username-password" formControlName="mobileNumber"
+        maxlength="15" pattern="\d*" placeholder="Enter your mobile Number" required>
+      </div>
+      <div class="rectangle-1">
+        <fa-icon class="usericon" [icon]="fullnameicon"></fa-icon>
+        <input type="text" class="enter-username-password" formControlName="fullName" placeholder="Enter your full name"
+        maxlength="50" required>
+      </div>
+      <button class="submit" type="submit" [disabled]="cannotSubmit">Register</button>
+
+    </form>
+  </div>
+  <!-- <div class="otp" *ngIf="forgotpasswordStep === 1">
+    <span class="title-login">Enter Otp</span>
+    <br>
+    <div class="rectangle-1">
+      <fa-icon class="usericon" [icon]="lockicon"></fa-icon>
+      <input [(ngModel)]="enteredOtp" class="enter-username-password" placeholder="Enter otp" maxlength="20" required>
+    </div>
+    <button (click)="verifyOtp()" class="submit">Verify Otp </button>
+  </div> -->
+</div>

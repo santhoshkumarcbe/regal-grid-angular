@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { interval, Subscription, switchMap } from 'rxjs';
 import { Chat } from 'src/app/models/chat.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -12,40 +13,72 @@ import { ChatService } from 'src/app/services/chat.service';
 export class ChatComponent {
   chats: Chat[] = [];
   newMessageText: string = '';
-  currentUser!: User;
-  userId!: string | null;
-  managerId = "65d442bc46682a569abe0113";
-  chat= {
-    senderId: "65d445dd46682a569abe0115",
-    receiverId: this.managerId,
+  currentUser!: User; // Initialize currentUser as undefined initially
+
+  userId = "";
+  adminId = this.authService.getUserId().replace(/["']/g, '');
+  chat: Chat= {
+    chatId: '',
+    senderId: this.adminId,
+    receiverId: this.userId,
     message: '',
     time: new Date(),
   };
 
   constructor(
     private chatService: ChatService,
+    private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
-    this.loadMessages();
+  @ViewChild('messageInput') messageInput!: ElementRef<HTMLInputElement>;
+
+  ngOnInit() {
+    console.log("admin id", this.adminId);
+    
+    // autofocus input 
+    setTimeout(() => {
+      this.messageInput.nativeElement.focus();
+    }, 0);
+
+    this.chatService.getUsername().subscribe({
+      next: data => {
+        this.getUserDetails(data);
+      },
+      error: error => {
+        console.error(error);
+      }
+    })
+    
   }
 
-  loadMessages(): void {
-    if (this.userId) {
-      this.chatService
-        .getChats(this.userId, this.managerId)
-        .subscribe({
-          next: chats => {
-            this.chats = chats;
-            console.log("chats", chats);
-            this.newMessageText = '';
-          },
-          error: Error => {
-            alert(Error.message);
-          }
-        }
-        );
-    }
+  getUserDetails(username:string){
+    this.authService.getUserByUsername(username).subscribe({
+      next: data => {
+        this.currentUser = data;
+        this.userId = this.currentUser.userId;
+        this.loadMessages();
+        this.chat.chatId = this.currentUser.username;
+        this.chat.receiverId = this.userId;
+      },
+      error: error => {
+        console.error(error);
+      }
+    })
+  }
+
+  subscription!: Subscription
+  loadMessages() {
+    this.subscription = interval(1000)
+    .pipe(
+      switchMap(() => this.chatService.getAllChatsByChatId(this.currentUser.username))).subscribe({
+      next: chats => {
+        this.chats = chats;
+        // console.log("chats", this.chats);
+      },
+      error: error => {
+        console.error(error);
+      }
+    });
   }
 
   currentDateTime(): void {
@@ -56,20 +89,28 @@ export class ChatComponent {
   }
 
   sendMessage(text: string): void {
-    if (this.userId) {
-      // Implement logic to send a message
-      this.chat.message = text;
-      this.currentDateTime();
-      this.chatService.sendChat(this.chat).subscribe(
-        (chats) => {
-          this.chats = chats;
-          console.log("chats", chats);  
-          this.loadMessages();
-        },
-        (err: Error) => {
-          alert(err.message);
-        }
-      );
+    this.messageInput.nativeElement.focus();
+    this.chat.message = text;
+    this.chat.senderId = this.adminId;
+    this.chat.receiverId = this.userId;
+    this.currentDateTime();
+    console.log(this.chat);
+    this.chatService.sendChat(this.chat).subscribe({
+      next: chat => {
+        console.log("chat posted successfully");
+        console.log(chat);
+        this.newMessageText = '';
+        this.loadMessages();
+      },
+      error: error => {
+        console.error(error);
+      },
+      complete: () => {
+        this.loadMessages();
+      }
     }
+
+      
+    );
   }
 }

@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleUser, faSignOut, faBars, faWallet } from '@fortawesome/free-solid-svg-icons';
-import { Subscription } from 'rxjs';
+import { interval, Subscription, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { PaymentService } from 'src/app/services/payment.service';
 
@@ -28,11 +28,16 @@ export class HeaderComponent implements OnInit{
       this.logout();
     }
     else{
-    this.subscription= this.auth.amountString.subscribe(
+    this.subscription = interval(5000)
+    .pipe(
+      switchMap(() => this.auth.getWalletAmount())).subscribe(
       {
         next: amount => {
           console.log("wallet balance ", amount);
-          this.walletAmount = amount;
+          let number = parseFloat(amount);
+          // this.walletAmount = number;
+          localStorage.setItem('wallet', number.toString());
+          this.walletAmount = localStorage.getItem('wallet');
           const balance = this.walletAmount === null ? 0: parseFloat(this.walletAmount.replace(",",""));
           this.paymentService.setWalletBalance(balance);
         },
@@ -44,7 +49,7 @@ export class HeaderComponent implements OnInit{
   }
   }
 
-  walletAmount!:string | null;
+  walletAmount = localStorage.getItem('wallet');
   logged = this.auth.isLoggedIn();
   username = this.auth.getUsername();
 

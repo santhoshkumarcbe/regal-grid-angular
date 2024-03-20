@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class AuthService {
-  sessionTime!: number;
+  sessionTime!: any;
   constructor(private router: Router, private http: HttpClient) { }
 
   user!: User;
@@ -31,35 +31,44 @@ export class AuthService {
     console.log(username);
   }
 
+  setUserId(userId: string) {
+    localStorage.setItem('userId', userId);
+  }
+
+  getUserId(): string {
+    const userId = localStorage.getItem('userId');
+    console.log("user id ", userId);
+
+    return userId === null ? '' : userId;
+  }
+
   setWalletAmount(amount: number) {
     this.amount = amount;
     localStorage.setItem('wallet', amount.toLocaleString());
     console.log("wallet", amount);
-    this.getWalletAmount()
   }
 
-  setEmail(email:string){
+  getInitialBalance(){
+    return localStorage.getItem('wallet');
+  }
+
+  setEmail(email: string) {
     localStorage.setItem('email', email);
   }
 
-  getEmail(){
+  getEmail() {
     return localStorage.getItem('email');
   }
 
-  amountString = new BehaviorSubject(localStorage.getItem('wallet'))
   getWalletAmount(){
-          this.amountString.next(localStorage.getItem('wallet'));
+    return this.getWalletAmountByUserName(localStorage.getItem('username')!.toString());
   }
 
-  getAmount(){
-    this.amountString.subscribe({
-      next: amount => {
-        return amount;
-      },
-      error: error => {
-        Swal.fire(error.body);
-      }
-    })
+  getWalletAmountByUserName(username:string) {
+    const getWalletAmountByUserNameUrl = `${environment.baseUrl}/user/getwalletbalancebyusername/${username}`;
+    const response = this.http.get(getWalletAmountByUserNameUrl, { responseType: 'text' });
+    console.log(response);
+    return response;
   }
 
   getToken(): string | null {
@@ -83,6 +92,7 @@ export class AuthService {
   logout() {
     localStorage.clear();
   }
+
   loginUrl = `${environment.baseUrl}/api/auth/login`
   authenticate(body: any): Observable<any> {
     const response = this.http.post<any>(this.loginUrl, body);
@@ -97,52 +107,65 @@ export class AuthService {
     return response;
   }
 
-  updatePassword(username:string, newPassword:string){
+  updatePassword(username: string, newPassword: string) {
     const updatePasswordUrl = `${environment.baseUrl}/api/auth/updatepassword/${username}/${newPassword}`;
-    const response = this.http.put(updatePasswordUrl,null);
+    const response = this.http.put(updatePasswordUrl, null);
     console.log(response);
     return response;
   }
 
-  getEmailByUserName(username:string){
+  getEmailByUserName(username: string) {
     const getEmailByUserNameUrl = `${environment.baseUrl}/api/auth/getEmailByUserName/${username}`;
-    const response = this.http.get(getEmailByUserNameUrl, {responseType: 'text'});
+    const response = this.http.get(getEmailByUserNameUrl, { responseType: 'text' });
     console.log(response);
     return response;
   }
 
-  isUsernameExists(username:any){
+  isUsernameExists(username: any) {
     const isUsernameExistsUrl = `${environment.baseUrl}/api/auth/isusernameExist/${username}`;
     console.log(isUsernameExistsUrl);
-    
+
     const response = this.http.get<boolean>(isUsernameExistsUrl);
     console.log(response);
     return response;
   }
 
-  isEmailExists(email:any){
+  isEmailExists(email: any) {
     const isEmailExistsUrl = `${environment.baseUrl}/api/auth/isEmailExist/${email}`;
     console.log(isEmailExistsUrl);
-    
+
     const response = this.http.get<boolean>(isEmailExistsUrl);
     console.log(response);
     return response;
   }
 
-  isMobileNumberExists(mobilenumber:any){
+  isMobileNumberExists(mobilenumber: any) {
     const isMobileNumberExistsUrl = `${environment.baseUrl}/api/auth/isMobilenumberExist/${mobilenumber}`;
     console.log(isMobileNumberExistsUrl);
-    
+
     const response = this.http.get<boolean>(isMobileNumberExistsUrl);
     console.log(response);
     return response;
   }
-  
+
+  getUserByUsername(username: string | null) {
+    const getUserByUsernameUrl = `${environment.baseUrl}/user/getuserbyusername/${username}`;
+    console.log(getUserByUsernameUrl);
+
+    const response = this.http.get<User>(getUserByUsernameUrl);
+    console.log(response);
+    return response;
+  }
+
   clearLocalStorageAfterTime(time: number) {
     this.sessionTime = setTimeout(() => {
       localStorage.clear();
       console.log('Local storage cleared.');
-      alert('session expired.');
+      Swal.fire({
+        text:'session expired.',
+        icon: 'error',
+        confirmButtonColor: '#007bff'
+      })
       this.router.navigateByUrl('/');
     }, time)
     return this.sessionTime

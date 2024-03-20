@@ -51,6 +51,7 @@ export class RegisterComponent {
           icon: "error",
           title: "Oops...",
           text: "User name already exists! enter unique name",
+          confirmButtonColor: '#007bff'
         });
       }
 
@@ -68,6 +69,7 @@ export class RegisterComponent {
         icon: "error",
         title: "Oops...",
         text: "Please enter valid input",
+        confirmButtonColor: '#007bff'
       });
     }
     else{
@@ -89,6 +91,7 @@ export class RegisterComponent {
             icon: "error",
             title: "Oops...",
             text: "Email id already exist, please log in",
+            confirmButtonColor: '#007bff'
           });
         }
         else {
@@ -115,6 +118,7 @@ export class RegisterComponent {
             icon: "error",
             title: "Oops...",
             text: "Mobile number already exist, please log in",
+            confirmButtonColor: '#007bff'
           });
         }
         else{
@@ -143,7 +147,7 @@ export class RegisterComponent {
           icon: "error",
           title: "Oops...",
           text: error.message,
-          footer: '<a></a>'
+          confirmButtonColor: '#007bff'
         });
         console.error(error);
 
@@ -231,7 +235,8 @@ export class RegisterComponent {
         title: "Regal grid",
         text: "Registeration successfull !",
         icon: "success",
-        footer: '<a> Happy motoring !</a>'
+        footer: '<a> Happy motoring !</a>',
+        confirmButtonColor: '#007bff'
       });
       this.register();
     }
@@ -240,7 +245,7 @@ export class RegisterComponent {
         icon: "error",
         title: "Oops...",
         text: "Enter valid otp!",
-        footer: '<a></a>'
+        confirmButtonColor: '#007bff'
       });
     }
   }

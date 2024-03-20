@@ -47,7 +47,7 @@ export class PaymentService {
         
       },
       error: response => {
-        alert(response);
+        console.error(response);
       }
     });
   }
@@ -75,6 +75,7 @@ export class PaymentService {
             icon: "error",
             title: "Oops...",
             text: "Payment failed..!",
+            confirmButtonColor: '#007bff'
           });
 
       },

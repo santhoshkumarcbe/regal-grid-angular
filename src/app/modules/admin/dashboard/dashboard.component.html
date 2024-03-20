@@ -14,7 +14,8 @@
             <h2>Enter Vehicle Model Details</h2>
             <form [formGroup]="addVehicleForm" (ngSubmit)="addVehicle()">
                 <label>Vehicle Type :
-                    <select class="popup-content-select" type="select" placeholder="vehicle type" formControlName="vehicleType" required>
+                    <select class="popup-content-select" type="select" placeholder="vehicle type"
+                        formControlName="vehicleType" required>
                         <option value="two-wheeler">two wheeler</option>
                         <option value="three-wheeler">three wheeler</option>
                         <option value="four-wheeler">four wheeler</option>
@@ -68,6 +69,7 @@
                         <p>Mobile Number: {{ mobileNumber }}</p>
                         <p>Full Name: {{ fullName }}</p>
                         <p>User Role: {{ userRole }}</p>
+                        <fa-icon class="checkicon" [icon]="chaticon" (click)="chat(username)"></fa-icon>
                     </div>
                 </div>
 
@@ -80,8 +82,9 @@
             </td>
         </tr>
     </table>
-    <button class="pagination" (click)="displayUser(i+1)" *ngFor="let page of [].constructor(pages); let i = index" >{{i+1}}</button>
-    <label for=""> Items per page : 
+    <button class="pagination" (click)="displayUser(i+1)"
+        *ngFor="let page of [].constructor(pages); let i = index">{{i+1}}</button>
+    <label for=""> Items per page :
         <select [(ngModel)]="itemsPerPage" (ngModelChange)="pagination($event)">
             <option [ngValue]="5">5</option>
             <option [ngValue]="10">10</option>

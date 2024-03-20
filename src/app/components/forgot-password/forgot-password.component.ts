@@ -28,10 +28,10 @@ export class ForgotPasswordComponent {
   confirmPassword!: string;
   isUsernameNull = true;
 
-  checkConfirmPass(){
-    if(this.confirmPassword === null || '' || undefined){
+  checkConfirmPass() {
+    if (this.confirmPassword === null || '' || undefined) {
       this.disableButton = true;
-      this.isUsernameNull = true;   
+      this.isUsernameNull = true;
       return false;
     }
     else if (this.password === this.confirmPassword && this.password !== '' || null || undefined) {
@@ -39,7 +39,7 @@ export class ForgotPasswordComponent {
       this.disableButton = false;
       return true;
     }
-    else{
+    else {
       this.disableButton = true;
       // this.isUsernameNull = true;
       return false;
@@ -57,6 +57,7 @@ export class ForgotPasswordComponent {
         icon: "error",
         title: "Oops...",
         text: "Password and confirm password should be same",
+        confirmButtonColor: '#007bff'
       });
     }
   }
@@ -68,7 +69,8 @@ export class ForgotPasswordComponent {
         Swal.fire({
           title: "Good job!",
           text: "Password updated!",
-          icon: "success"
+          icon: "success",
+          confirmButtonColor: '#007bff'
         });
         this.router.navigateByUrl('/');
       },
@@ -84,7 +86,10 @@ export class ForgotPasswordComponent {
       next: email => {
         console.log(email);
         this.sendOtpToMail(email);
-        Swal.fire("OTP send to your registered e-mail");
+        Swal.fire({
+          text: "OTP send to your registered e-mail",
+          confirmButtonColor: '#007bff'
+        });
         this.forgotpasswordStep++;
       },
       error: error => {
@@ -94,6 +99,7 @@ export class ForgotPasswordComponent {
           icon: "error",
           title: "User name not found",
           text: "Enter valid user name",
+          confirmButtonColor: '#007bff'
         });
       }
     })
@@ -141,7 +147,8 @@ export class ForgotPasswordComponent {
       Swal.fire({
         title: "Otp verified successfully !",
         text: "",
-        icon: "success"
+        icon: "success",
+        confirmButtonColor: '#007bff'
       });
       this.forgotpasswordStep++;
 
@@ -151,7 +158,7 @@ export class ForgotPasswordComponent {
         icon: "error",
         title: "Oops...",
         text: "Enter valid otp!",
-        footer: '<a></a>'
+        confirmButtonColor: '#007bff'
       });
     }
   }

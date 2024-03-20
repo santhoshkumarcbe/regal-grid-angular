@@ -38,7 +38,10 @@ export class DashboardComponent implements OnInit {
           this.expectedCharge = data;
         }
         else {
-          Swal.fire('Enter less time');
+          Swal.fire({
+            text: 'Enter less time',
+            confirmButtonColor: '#007bff'
+          });
         }
       },
       error: error => {
@@ -61,6 +64,7 @@ export class DashboardComponent implements OnInit {
         icon: "error",
         title: "Oops...",
         text: "Something went wrong!",
+        confirmButtonColor: '#007bff',
         footer: '<a>Expected charge should be greater than current charge and less than or equal to 100  </a>'
       });
     }
@@ -144,7 +148,7 @@ export class DashboardComponent implements OnInit {
         icon: "error",
         title: "Oops...",
         text: "Please enter valid input",
-
+        confirmButtonColor: '#007bff'
       });
       return;
     }
@@ -159,6 +163,7 @@ export class DashboardComponent implements OnInit {
             position: "center",
             icon: "success",
             title: "Vehicle added Successfully",
+            confirmButtonColor: '#007bff',
             showConfirmButton: true,
             timer: 1500
           });
@@ -202,6 +207,7 @@ export class DashboardComponent implements OnInit {
               icon: "error",
               title: "Oops...",
               text: "Something went wrong!",
+              confirmButtonColor: '#007bff'
             });
             console.error(error.message);
           }

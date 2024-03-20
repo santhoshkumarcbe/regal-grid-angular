@@ -22,7 +22,7 @@ export class LoginComponent {
   userId!: number;
   token = '';
   loginForm = new FormGroup({
-    userName: new FormControl('customer1'),
+    userName: new FormControl('admin1'),
     password: new FormControl('rg')
   });
 
@@ -34,6 +34,7 @@ export class LoginComponent {
         icon: "error",
         title: "Oops...",
         text: "Please enter valid input !",
+        confirmButtonColor: '#007bff'
       });
       return;
     }
@@ -82,7 +83,8 @@ export class LoginComponent {
             icon: "error",
             title: "Oops...",
             text: "Something went wrong!",
-            footer: '<a>Server down </a>'
+            footer: '<a>Check username and password</a>',
+            confirmButtonColor: '#007bff'
           });
           
           this.cannotSubmit = false;

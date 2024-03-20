@@ -24,7 +24,8 @@ import { TransactionsComponent } from './transactions/transactions.component';
         DealerRoutingModule,
         HeaderComponent,
         FooterComponent,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [ DatePipe, SlotService ]
 })

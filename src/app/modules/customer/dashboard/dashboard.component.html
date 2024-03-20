@@ -6,20 +6,23 @@
 
         <div class="vehicle-selector">
             <div *ngIf="userVehicles.length !== 0">
-                <p> Choose your vehicle :
+                <p class="charge-label"> Choose your vehicle :
                     <select [(ngModel)]="selectedUserVehicle" (ngModelChange)="onSelectionChange($event)">
                         <option *ngFor="let vehicle of userVehicles" [ngValue]="vehicle">{{ vehicle.vehicleName }}
                         </option>
                     </select>
                 </p>
 
-                <p>{{selectedUserVehicle.vehicleName}}'s current charge : {{selectedUserVehicle.chargeAvailable}} %</p>
+                <p class="charge-info">
+                    <span class="vehicle-name">{{selectedUserVehicle.vehicleName}}</span>'s current charge:
+                    <span class="charge-amount">{{selectedUserVehicle.chargeAvailable}}%</span>
+                </p>
 
-                <p>Enter your expected charge of {{selectedUserVehicle.vehicleName}} : <input type="number"
+                <p class="charge-label">Enter your expected charge of {{selectedUserVehicle.vehicleName}} : <input  type="number"
                         [(ngModel)]="expectedCharge" (ngModelChange)="getExpectedTimeDuration()"
                         [min]="selectedUserVehicle.chargeAvailable" [max]="100"></p>
 
-                <p>Expected time to get expected charge : <input type="number" [(ngModel)]="expectedChargeHour"
+                <p class="charge-label">Expected time to get expected charge : <input type="number" [(ngModel)]="expectedChargeHour"
                         (ngModelChange)="getExpectedCharge()"> hours <input type="number" min="5"
                         [(ngModel)]="expectedChargeMinutes" (ngModelChange)="getExpectedCharge()"> minutes</p>
             </div>
@@ -52,12 +55,10 @@
                     </form>
                 </div>
             </div>
-
         </div>
 
-
         <div class="charging-stations">
-            <p>Charging stations near you : </p>
+            <p class="charge-label">Charging stations near you : </p>
             <div *ngFor="let chargingStationDistance of chargingStationDistances" class="charging-station">
                 <div class="charging-station"
                     (click)="getSlots(chargingStationDistance.chargingStation)">

@@ -34,7 +34,7 @@ this.displaySlots = this.slots.filter((slot: Slot) => {
 this.pagination(10);
   
 }
-  itemsPerPage = 1;
+  itemsPerPage = 10;
   pages!:number;
   
 pagination(itemsPerPage: number){

@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { faMessage } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'src/app/models/user.model';
 import { AdminService } from 'src/app/services/admin.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ChatService } from 'src/app/services/chat.service';
 import { VehicleService } from 'src/app/services/vehicle.service';
 import Swal from 'sweetalert2';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -13,10 +15,15 @@ import Swal from 'sweetalert2';
 })
 export class DashboardComponent {
 
-  constructor(private adminService: AdminService, private vehicleService: VehicleService, private authService: AuthService) { }
+  constructor(private adminService: AdminService,
+    private vehicleService: VehicleService,
+    private authService: AuthService,
+    private router: Router,
+    private chatService: ChatService) { }
 
   permissions!: string[];
   users!: any
+  chaticon = faMessage;
 
   isShow = false;
   show() {
@@ -30,7 +37,7 @@ export class DashboardComponent {
         console.log(this.users);
       },
       error: error => {
-        alert(error.message);
+        console.error(error.message);
       },
       complete: () => {
         this.pagination(this.itemsPerPage)
@@ -43,7 +50,7 @@ export class DashboardComponent {
       console.log("permissions", this.permissions);
 
     }, (error: Error) => {
-      alert(error.message);
+      console.error(error.message);
     });
   }
 
@@ -106,7 +113,12 @@ export class DashboardComponent {
   userName = this.authService.getUsername();
   addVehicle() {
     if (this.addVehicleForm.invalid) {
-      alert('Please enter valid input');
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter valid input !",
+        confirmButtonColor: '#007bff'
+      });
       return;
     }
     else {
@@ -120,6 +132,7 @@ export class DashboardComponent {
             icon: "success",
             title: "Vehicle Brand added Successfully",
             showConfirmButton: true,
+            confirmButtonColor: '#007bff',
             timer: 2500
           });
         },
@@ -127,6 +140,7 @@ export class DashboardComponent {
           console.error(error.error);
           Swal.fire({
             title: error.error,
+            confirmButtonColor: '#007bff',
             showClass: {
               popup: `
                 animate__animated
@@ -161,6 +175,12 @@ export class DashboardComponent {
     const startIndex = (pageNumber - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.displayUsers = this.users.slice(startIndex, endIndex);
+  }
+
+  chat(username: string) {
+    console.log(username);
+    this.chatService.setUsername(username);
+    this.router.navigateByUrl('/admin/chat')
   }
 
 }

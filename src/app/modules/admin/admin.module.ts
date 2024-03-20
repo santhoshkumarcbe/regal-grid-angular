@@ -10,6 +10,7 @@ import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { RegisterDealerComponent } from './register-dealer/register-dealer.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { RegisterDealerComponent } from './register-dealer/register-dealer.compo
     HeaderComponent,
     FooterComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FontAwesomeModule
   ]
 })
 export class AdminModule { }

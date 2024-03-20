@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
 export class SlotComponent {
   constructor(private slotService: SlotService, private datePipe: DatePipe, private router: Router) { }
   chargingStationId!: string | null;
-  slots!: Slot[] ;
+  slots!: Slot[];
   minDate: string = new Date().toISOString().split('T')[0];
   minTime: string = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -26,8 +26,8 @@ export class SlotComponent {
     const millis = date.getHours() * 60 * 60 * 1000 + date.getMinutes() * 60 * 1000 + date.getSeconds() * 1000;
     date.setTime(date.getTime() - millis);
     this.getAllSlotsByDate(this.chargingStationId, date);
-    if (this.selectedDate!==null && this.slotService.isGetSlotsClicked) {
-    this.getSlotsForDate();
+    if (this.selectedDate !== null && this.slotService.isGetSlotsClicked) {
+      this.getSlotsForDate();
     }
     if (this.specificSlots) {
       this.selectedDate = this.specificSlots[0].date.toLocaleDateString();
@@ -38,30 +38,31 @@ export class SlotComponent {
   private destroy$: Subject<void> = new Subject<void>();
   ngOnDestroy() {
     this.destroy$.next(); // Emit signal to unsubscribe
-      this.destroy$.complete();
+    this.destroy$.complete();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  getAllSlotsByDate(id: string| null, date: Date) {
+  getAllSlotsByDate(id: string | null, date: Date) {
     // if (this.selectedDate!==null) {
-       this.slotService.getAllSlotsByDate(id, date).subscribe(
-        {
-          next: slots => {
-            this.slots = slots;
-            console.log(slots);
-          },
-          error: error => {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Something went wrong!",
-            });
-            console.error(error.message);
-          }
+    this.slotService.getAllSlotsByDate(id, date).subscribe(
+      {
+        next: slots => {
+          this.slots = slots;
+          console.log(slots);
+        },
+        error: error => {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            confirmButtonColor: '#007bff'
+          });
+          console.error(error.message);
         }
-      )
+      }
+    )
     // }
   }
 
@@ -81,6 +82,7 @@ export class SlotComponent {
             icon: "error",
             title: "Oops...",
             text: "Something went wrong!",
+            confirmButtonColor: '#007bff'
           });
           console.error(error.message);
 
@@ -99,14 +101,17 @@ export class SlotComponent {
       this.slotService.fetchAllSlot(this.chargingStationId, dateTime);
       this.getAllSlot();
     } else {
-      Swal.fire('Date and time are required');
+      Swal.fire({
+        text: 'Date and time are required',
+        confirmButtonColor: '#007bff'
+      });
       console.error('Date and time are required');
     }
   }
 
   calculateEndTime(startTime: string, duration: string): string | null {
     return this.slotService.calculateEndTime(startTime, duration);
-    
+
   }
 
   getISTTime(time: string): string | null {

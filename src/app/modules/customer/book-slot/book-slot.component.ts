@@ -80,6 +80,7 @@ export class BookSlotComponent {
             icon: "error",
             title: "Oops...",
             text: "Something went wrong!",
+            confirmButtonColor: '#007bff'
           });
           console.error(error.message);
         }
@@ -113,6 +114,7 @@ export class BookSlotComponent {
     if (currentDate > startTime) {
       Swal.fire({
         title: "Start Time should be greater than current Time",
+        confirmButtonColor: '#007bff',
         showClass: {
           popup: `
             animate__animated
@@ -132,6 +134,7 @@ export class BookSlotComponent {
     else if (!duration) {
       Swal.fire({
         title: "slot duration should minimum 5 minutes",
+        confirmButtonColor: '#007bff',
         showClass: {
           popup: `
             animate__animated
@@ -149,8 +152,10 @@ export class BookSlotComponent {
       });
     }
     else if (!this.fromDate && !this.fromTime && !this.toTime) {
-      Swal.fire('Slot timing required');
-      console.error('Slot timing required');
+      Swal.fire({
+        text: 'Slot timing required',
+        confirmButtonColor: '#007bff'
+      });
     }
 
     else {
@@ -159,6 +164,7 @@ export class BookSlotComponent {
         showDenyButton: true,
         // showCancelButton: true,
         confirmButtonText: "Yes, book slot",
+        confirmButtonColor: '#007bff',
         denyButtonText: `cancel`
       }).then((result) => {
         if (result.isConfirmed) {
@@ -167,7 +173,11 @@ export class BookSlotComponent {
           this.checkAvailableBalance(totalCost);
         }
         else if (result.isDenied) {
-          Swal.fire("Slot canceled", "", "info");
+          Swal.fire({
+            text: "Slot canceled",
+            icon: "info",
+            confirmButtonColor: '#007bff'
+          });
         }
       });
     }
@@ -185,8 +195,8 @@ export class BookSlotComponent {
       Swal.fire({
         title: "Your wallet has low balance, Do you like pay now ?",
         showDenyButton: true,
-        // showCancelButton: true,
         confirmButtonText: "Pay now",
+        confirmButtonColor: '#007bff',
         denyButtonText: `Cancel`
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
@@ -207,7 +217,11 @@ export class BookSlotComponent {
             }
           })
         } else if (result.isDenied) {
-          Swal.fire("Booking canceled", "", "info");
+          Swal.fire({
+            text: "Booking canceled",
+            icon: "info",
+            confirmButtonColor: '#007bff'
+          });
         }
       });
     }
@@ -307,7 +321,12 @@ export class BookSlotComponent {
       this.slotService.bookSlot(body).subscribe({
         next: response => {
           this.updateWallet(deductionAmount)
-          Swal.fire(response, "", "success");
+          Swal.fire({
+            title: "Good job!",
+            text: response,
+            icon: "success",
+            confirmButtonColor: '#007bff'
+          });
           console.log("email", emailBody);
           this.emailService.sendEmail(emailBody).subscribe({
             next: data => {
@@ -320,13 +339,19 @@ export class BookSlotComponent {
           });
         },
         error: error => {
-          Swal.fire("Something went wrong")
+          Swal.fire({
+            text: "Something went wrong",
+            confirmButtonColor: '#007bff'
+          })
           console.error(error.message);
         }
       })
     }
     else {
-      Swal.fire('Unknown error');
+      Swal.fire({
+        text: 'Unknown error',
+        confirmButtonColor: '#007bff'
+      });
       console.error('Slot timing required');
     }
   }
@@ -362,9 +387,11 @@ export class BookSlotComponent {
       this.slotService.fetchAllSlot(chargingStationId, dateTime);
       this.getAllSlots();
 
-
     } else {
-      Swal.fire('Date and time are required');
+      Swal.fire({
+        text: 'Date and time are required',
+        confirmButtonColor: '#007bff'
+      });
       console.error('Date and time are required');
     }
   }

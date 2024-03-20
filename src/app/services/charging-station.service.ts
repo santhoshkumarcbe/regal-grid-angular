@@ -20,6 +20,14 @@ export class ChargingStationService {
     return dealerName === null ? '': dealerName;
   }
 
+  postChargingStation(chargingStation: any){
+    const postChargingStationUrl = `${environment.baseUrl}/chargingstation/post`;
+    console.log(postChargingStationUrl);
+    const response = this.http.post(postChargingStationUrl, chargingStation, {responseType: 'text'});
+    console.log(response);
+    return response;
+  }
+
   getAllChargingStations(userLatitude: number, userLongitude: number) {
     const latitude = userLatitude;
     const longitude = userLongitude;

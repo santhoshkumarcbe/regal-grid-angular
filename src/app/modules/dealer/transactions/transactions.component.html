@@ -1,9 +1,6 @@
 <app-sidebar></app-sidebar>
 <body>
-    <p>Search By startTime: 
-        <input type="text" [(ngModel)]="searchText" (ngModelChange)="search($event)">
-    
-</p>
+
     <p> Choose your Charging Station : 
         <select [(ngModel)]="selectedChargingStation" (ngModelChange)="onSelectionChanges($event)" >
             <option *ngFor="let station of chargingStations" [ngValue]="station"> {{station.stationName}}</option>

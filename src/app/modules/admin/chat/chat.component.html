@@ -1,17 +1,15 @@
 <app-sidebar></app-sidebar>
-<div class="chat-container">
+<body> 
+  <div class="chat-container">
     <div *ngFor="let chat of chats" class="message-container">
-      <div [ngClass]="{'sent': chat.senderId === currentUser.userId , 'received': chat.senderId !== currentUser.userId}">
-        <p>{{ chat.message }}  <span id="time">{{ chat.time | date: 'shortTime' }}</span></p>
-        <div class="message-details">
-         
-          <span id="date">{{ chat.time | date: 'shortDate' }}</span>
-        </div>
+      <div [ngClass]="{'received': chat.senderId === currentUser.userId , 'sent': chat.senderId !== currentUser.userId}">
+        <p>{{ chat.message }} <span id="time">{{ chat.time | date: 'shortTime' }} {{ chat.time | date: 'shortDate' }}</span></p>
       </div>
     </div>
   </div>
   
   <div class="input-container">
-    <input type="text" [(ngModel)]="newMessageText" placeholder="Type a message...">
+    <input #messageInput type="text" [(ngModel)]="newMessageText" (keyup.enter)="sendMessage(newMessageText)" placeholder="Type a message..." autofocus>
     <button (click)="sendMessage(newMessageText)">Send</button>
   </div>
+</body>
