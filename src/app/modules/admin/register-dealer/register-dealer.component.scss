@@ -123,6 +123,11 @@ color: #ffffff;
 border: solid 2px #0066cc;
 }
 
+:disabled{
+  background: linear-gradient(90deg, #0066CC  0%, #00bf63 100%);
+  opacity: 0.3;
+}
+
 @media screen and (max-width: 600px) {
   div {
       width: 80%;

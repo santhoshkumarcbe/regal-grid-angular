@@ -22,8 +22,8 @@ export class LoginComponent {
   userId!: number;
   token = '';
   loginForm = new FormGroup({
-    userName: new FormControl('admin1'),
-    password: new FormControl('rg')
+    userName: new FormControl(''),
+    password: new FormControl('')
   });
 
   cannotSubmit = false;

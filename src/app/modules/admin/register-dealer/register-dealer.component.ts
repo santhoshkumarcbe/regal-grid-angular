@@ -40,7 +40,7 @@ export class RegisterDealerComponent {
     userRole: new FormControl('dealer')
   });
 
-  cannotSubmit = false;
+  cannotSubmit = true;
   isEmailExist = false;
   isMobileNumberExist = false;
 
