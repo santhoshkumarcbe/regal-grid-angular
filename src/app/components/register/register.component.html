@@ -1,49 +1,56 @@
 <app-header></app-header>
-<div class="form">
-  <div *ngIf="forgotpasswordStep === 0">
-    <form [formGroup]="registerForm" (ngSubmit)="checkFormVaild()">
-      <span class="title-login">Regal Grid register Form </span>
-      <div class="rectangle-1">
-        <fa-icon class="usericon" [icon]="usericon"></fa-icon>
-        <fa-icon *ngIf="isNewUsername" class="checkicon" [icon]="checkicon"></fa-icon>
-        <fa-icon *ngIf="!isNewUsername" [ngStyle]="{'display':isUsernameNull ? 'none': 'block'}" class="wrongicon" [icon]="wrongicon"></fa-icon>
-        <input class="enter-username-password" (input)="findUsername()" formControlName="userName"
-          placeholder="Enter your User Name" maxlength="20" required>
-      </div>
-      <div class="rectangle-1">
-        <fa-icon class="usericon" [icon]="passwordicon"></fa-icon>
-        <input type="password" class="enter-username-password" formControlName="passwordHash"
-          placeholder="Enter your Password" maxlength="30" required>
-      </div>
-      <div class="rectangle-1">
-        <fa-icon class="usericon" [icon]="emailicon"></fa-icon>
-        <input type="email" class="enter-username-password" formControlName="emailId" placeholder="Enter your email id"
-        maxlength="320" required>
-      </div>
-      <div class="rectangle-1">
-        <fa-icon class="usericon" [icon]="mobileicon"></fa-icon>
-        <input type="text" class="enter-username-password" formControlName="mobileNumber"
-        maxlength="15" pattern="\d*" placeholder="Enter your mobile Number" required>
-      </div>
-      <div class="rectangle-1">
-        <fa-icon class="usericon" [icon]="fullnameicon"></fa-icon>
-        <input type="text" class="enter-username-password" formControlName="fullName" placeholder="Enter your full name"
-        maxlength="50" required>
-      </div>
-      <button class="submit" type="submit" [disabled]="cannotSubmit">Register</button>
-      <p class="forgot-password">Already have an account? <span routerLink="/" class="forgot-password-hover">Sign
-          In</span> </p>
 
+<div class="form">
+  <div *ngIf="registerUserStep === 0">
+    <form [formGroup]="registerForm">
+      <h1 class="title-login">Regal Grid register new user </h1>
+      <mat-form-field class="rectangle-1">
+        <mat-icon *ngIf="isNewUsername" class="checkicon">check_circle</mat-icon>
+        <mat-icon *ngIf="!isNewUsername && !isUsernameNull" class="wrongicon">error</mat-icon>
+        <mat-label>Username</mat-label>
+        <input matInput (input)="findUsername()" formControlName="userName" placeholder="Enter your User Name"
+          maxlength="20" required>
+      </mat-form-field>
+      <mat-form-field class="rectangle-1">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="passwordHash"
+          placeholder="Enter your Password" maxlength="30" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="rectangle-1">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="emailId" placeholder="Enter your email id" maxlength="320"
+          required>
+      </mat-form-field>
+      <mat-form-field class="rectangle-1">
+        <mat-label>Mobile number</mat-label>
+        <input matInput type="text" formControlName="mobileNumber" maxlength="15" pattern="\d*"
+          placeholder="Enter your mobile Number" required>
+      </mat-form-field>
+      <mat-form-field class="rectangle-1">
+        <mat-label>Full name</mat-label>
+        <input matInput type="text" formControlName="fullName" placeholder="Enter your full name" maxlength="50"
+          required>
+      </mat-form-field>
+      <button (click)="checkFormVaild()" mat-raised-button class="submit" type="submit" [disabled]="cannotSubmit"><span
+          style="color: white;">Register</span></button>
+      <p class="forgot-password">Already have an account? <a routerLink="/" class="forgot-password-hover">Sign In</a>
+      </p>
     </form>
   </div>
-  <div class="otp" *ngIf="forgotpasswordStep === 1">
-    <span class="title-login">Enter Otp received to your mail</span>
+  <div class="otp" *ngIf="registerUserStep === 1">
+    <h1 class="title-login">Enter OTP received to your mail</h1>
     <br>
-    <div class="rectangle-1">
-      <fa-icon class="usericon" [icon]="lockicon"></fa-icon>
-      <input [(ngModel)]="enteredOtp" class="enter-username-password" placeholder="Enter otp" maxlength="20" required>
-    </div>
-    <button (click)="verifyOtp()" class="submit">Verify Otp </button>
+    <mat-form-field class="rectangle-1">
+      <mat-label>Verify OTP</mat-label>
+      <input matInput [(ngModel)]="enteredOtp" placeholder="Enter OTP" maxlength="20" required>
+    </mat-form-field>
+    <button mat-raised-button (click)="verifyOtp()" class="submit"><span style="color: white;">Verify Otp</span>
+    </button>
   </div>
 </div>
+
 <app-footer></app-footer>

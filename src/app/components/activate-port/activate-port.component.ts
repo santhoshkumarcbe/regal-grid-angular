@@ -34,11 +34,8 @@ export class ActivatePortComponent {
 
       },
       error: error => {
-        console.error(error);
+        console.log(error);
         this.errorMessage = "Link is broken or Already verified";
-        setTimeout(() => {
-          this.errorMessage = null;
-        }, 3000);
       }
     })
   }

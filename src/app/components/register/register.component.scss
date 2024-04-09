@@ -40,9 +40,9 @@ form {
 .rectangle-1 {
   position: relative;
   width: 340px;
-  height: 60px;
+  height: 70px;
   margin: 10px 0 0 813px;
-  background: linear-gradient(90deg, #06fabd  0%, #0066CC  100%);
+  // background: linear-gradient(90deg, #06fabd  0%, #0066CC  100%);
   z-index: 3;
   // overflow: 20px;
 }
@@ -78,7 +78,7 @@ form {
   display: block;
   position: relative;
   height: 29px;
-  margin: 30px 0 0 946px;
+  margin: 30px 0 0 1096px;
   color: #04b160;
   font-family: Inter, var(--default-font-family);
   font-size: 24px;
@@ -96,7 +96,7 @@ form {
 }
 
 .submit{
-  margin: 53px 0 0 946px;
+  margin: 4px 0 0 916px;
 font-family: Roboto, sans-serif;
 font-weight: 0;
 font-size: 14px;

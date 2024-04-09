@@ -23,7 +23,8 @@ export class ForgotPasswordComponent {
   wrongicon = faXmark;
   forgotpasswordStep = 0;
   disableButton = true;
-
+  hide = true;
+  hide1 = true
   password!: string;
   confirmPassword!: string;
   isUsernameNull = true;
@@ -142,8 +143,15 @@ export class ForgotPasswordComponent {
   enteredOtp!: number;
   verifyOtp() {
     console.log(this.enteredOtp);
-
-    if (this.enteredOtp.toString() === this.otp.toString()) {
+    if (this.enteredOtp === undefined) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Enter valid otp!",
+        confirmButtonColor: '#007bff'
+      });
+    }
+    else if (this.enteredOtp.toString() === this.otp.toString()) {
       Swal.fire({
         title: "Otp verified successfully !",
         text: "",
@@ -157,7 +165,7 @@ export class ForgotPasswordComponent {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Enter valid otp!",
+        text: "OTP invalid",
         confirmButtonColor: '#007bff'
       });
     }

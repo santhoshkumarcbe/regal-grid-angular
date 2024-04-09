@@ -21,6 +21,7 @@ export class LoginComponent {
   user!: User;
   userId!: number;
   token = '';
+  hide = true
   loginForm = new FormGroup({
     userName: new FormControl(''),
     password: new FormControl('')

@@ -32,6 +32,7 @@ export class RegisterComponent {
   user!: User;
   userId!: number;
   token = '';
+  hide = true;
   registerForm = new FormGroup({
     userName: new FormControl(''),
     passwordHash: new FormControl(''),
@@ -57,7 +58,7 @@ export class RegisterComponent {
 
       else {
         this.cannotSubmit = true;
-        this.forgotpasswordStep++;
+        this.registerUserStep++;
         const email = this.registerForm.value.emailId;
         this.sendOtpToMail(email!.toString());
       }
@@ -156,7 +157,7 @@ export class RegisterComponent {
     });
   }
 
-  forgotpasswordStep = 0;
+  registerUserStep = 0;
   lockicon = faLock;
   checkicon = faCheck;
   wrongicon = faXmark;
