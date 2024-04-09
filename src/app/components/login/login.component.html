@@ -1,18 +1,45 @@
 <app-header></app-header>
 <div class="form">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <!-- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <span class="title-login">Regal Grid Sign In</span>
-    <div class="rectangle-1" >
+    <div class="rectangle-1">
       <fa-icon class="usericon" [icon]="usericon"></fa-icon>
-      <input class="enter-username-password" formControlName="userName" placeholder="Enter your User Name" maxlength="20" required> 
+      <input class="enter-username-password" formControlName="userName" placeholder="Enter your User Name"
+        maxlength="20" required>
     </div>
     <div class="rectangle-1">
       <fa-icon class="usericon" [icon]="passwordicon"></fa-icon>
-      <input type="password" class="enter-username-password" formControlName="password" placeholder="Enter your Password" maxlength="30" required>
+      <input type="password" class="enter-username-password" formControlName="password"
+        placeholder="Enter your Password" maxlength="30" required>
     </div>
-    <button class="submit" type="submit"  [disabled]="cannotSubmit">Login test</button>
+    <button class="submit" mat-button>
+      <span style="color: white;">Login</span>
+    </button>
     <span routerLink="/forgot-password" class="forgot-password forgot-password-hover">Forgot Password?</span>
-    <p class="forgot-password">new user ? <span routerLink="/register" class="forgot-password-hover" > Register now</span> </p>
+    <p class="forgot-password">new user ? <span routerLink="/register" class="forgot-password-hover"> Register
+        now</span> </p>
+  </form> -->
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1 class="title-login">Regal Grid Sign In</h1>
+    
+    <mat-form-field class="rectangle-1">
+      <!-- <mat-icon class="usericon">person</mat-icon> -->
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="userName" placeholder="Enter your User Name" maxlength="20" required>
+    </mat-form-field>
+    
+    <mat-form-field class="rectangle-1">
+      <!-- <mat-icon class="usericon">lock</mat-icon> -->
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" placeholder="Enter your Password" maxlength="30" required>
+    </mat-form-field>
+    
+    <button mat-raised-button color="primary" type="submit" class="submit">Login</button>
+    
+    <a routerLink="/forgot-password" class="forgot-password forgot-password-hover">Forgot Password?</a>
+    
+    <p class="forgot-password">new user ? <a routerLink="/register" class="forgot-password-hover"> Register now</a></p>
   </form>
+  
 </div>
 <app-footer></app-footer>

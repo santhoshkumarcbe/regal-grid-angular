@@ -40,9 +40,9 @@ form {
 .rectangle-1 {
   position: relative;
   width: 340px;
-  height: 60px;
+  height: 70px;
   margin: 10px 0 0 813px;
-  background: linear-gradient(90deg, #06fabd  0%, #0066CC  100%);
+  // background: linear-gradient(90deg, #06fabd  0%, #0066CC  100%);
   z-index: 3;
   overflow: hidden;
 }
@@ -50,7 +50,7 @@ form {
 .usericon {
   position: absolute;
   top: 40%;
-  left: 5%;
+  left: -6%;
 }
 
 .enter-username-password {

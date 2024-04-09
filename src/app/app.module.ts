@@ -17,6 +17,10 @@ import { RegisterComponent } from './components/register/register.component';
 import { DatePipe } from '@angular/common';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ActivatePortComponent } from './components/activate-port/activate-port.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -39,7 +43,11 @@ import { ActivatePortComponent } from './components/activate-port/activate-port.
         MatSnackBarModule,
         FontAwesomeModule,
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule
     ]
 })
 export class AppModule { }
